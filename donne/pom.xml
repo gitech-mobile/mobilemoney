@@ -64,9 +64,10 @@
         </dependencies>
     </dependencyManagement>
 
+<!--
     <build>
         <plugins>
-            <!--docker rize-->
+            &lt;!&ndash;docker rize&ndash;&gt;
 
             <plugin>
                 <groupId>com.spotify</groupId>
@@ -79,7 +80,7 @@
                             <goal>build</goal>
                             <goal>tag</goal>
 
-                            <!--<goal>push</goal>-->
+                            &lt;!&ndash;<goal>push</goal>&ndash;&gt;
                         </goals>
                         <configuration>
                             <tag>latest</tag>
@@ -110,6 +111,7 @@
 
         </plugins>
     </build>
+-->
 
 
 

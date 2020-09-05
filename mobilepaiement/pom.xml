@@ -26,6 +26,7 @@
 
 
     </dependencies>
+<!--
     <build>
         <plugins>
             <plugin>
@@ -38,7 +39,7 @@
                         <goals>
                             <goal>build</goal>
                             <goal>tag</goal>
-                            <!--<goal>push</goal>-->
+                            &lt;!&ndash;<goal>push</goal>&ndash;&gt;
                         </goals>
                         <configuration>
                             <tag>latest</tag>
@@ -67,5 +68,6 @@
             </plugin>
         </plugins>
     </build>
+-->
 
 </project>
