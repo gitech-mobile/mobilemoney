@@ -1,0 +1,13 @@
+<div class="row">
+  <div col-lg-2>
+<nb-select class="period-select" [selected]="periode" (selectedChange)="changePeriod($event)">
+   <nb-option *ngFor="let period of periodes" [value]="period">
+    {{ period }}
+  </nb-option>
+</nb-select>
+  </div>
+  <div class="col-lg-3">
+<input nbInput status="info" shape="round" fullWidth size="medium" [(ngModel)]="date" (ngModelChange)="changeDate(date)"   [nbDatepicker]="datepicker" >
+<nb-datepicker #datepicker ></nb-datepicker>
+  </div>
+</div>

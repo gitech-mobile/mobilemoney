@@ -1,0 +1,108 @@
+<app-search-client (clientChange)=setSearch($event)></app-search-client>
+
+<nb-card>
+  <nb-card-header>
+    Clients
+    <nb-icon nbButton status="info"  icon="plus"  (click)="ajouter()"></nb-icon>
+  </nb-card-header>
+
+  <nb-card-body>
+  <mat-table class="animated fadeInDown" [dataSource]="dataSource" matSort matSortActive="nom" matSortDirection="asc" (matSortChange)="loadClientPage()" matSortDisableClear>
+
+    <ng-container matColumnDef="action">
+      <mat-header-cell *matHeaderCellDef > action </mat-header-cell>
+      <mat-cell  *matCellDef="let element">
+        <nb-icon nbButton icon="edit-outline" (click)="selection.toggle(element)"></nb-icon>
+        <nb-icon nbButton icon="save-outline"  (click)="saveModal(element)"></nb-icon>
+        <nb-icon nbButton icon="trash-outline" (click)="deleteModal(element)"></nb-icon>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="nom">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Nom </mat-header-cell>
+      <mat-cell *matCellDef="let element"  >
+
+          <input nbInput fieldSize="small"  shape="round" fullWidth [(ngModel)]="element.nom" [readOnly]="!selection.isSelected(element)"  >
+
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="prenom">
+      <mat-header-cell *matHeaderCellDef mat-sort-header > Prenom </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+
+          <input nbInput fieldSize="small"  shape="round"  fullWidth [(ngModel)]="element.prenom" [readOnly]="!selection.isSelected(element)" >
+
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="numeroCompte">
+      <mat-header-cell  *matHeaderCellDef mat-sort-header> Numero Telephone</mat-header-cell>
+      <mat-cell *matCellDef="let element" >
+
+          <input nbInput fieldSize="small"  shape="round" fullWidth [(ngModel)]="element.numeroCompte" [readOnly]="!selection.isSelected(element)" >
+
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="cin">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Numero Piece </mat-header-cell>
+      <mat-cell *matCellDef="let element" >
+
+          <input nbInput fieldSize="small"  shape="round" fullWidth [(ngModel)]="element.cin" [readOnly]="!selection.isSelected(element)" >
+
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="finCin"  >
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Expiration CIN </mat-header-cell>
+      <mat-cell *matCellDef="let element" >
+
+          <input nbInput fieldSize="small"  shape="round" fullWidth [(ngModel)]="element.finCin" [nbDatepicker]="datepicker" [readOnly]="!selection.isSelected(element)" >
+
+        <nb-datepicker #datepicker ></nb-datepicker>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="adresse">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Adresse </mat-header-cell>
+      <mat-cell *matCellDef="let element" >
+
+          <input nbInput fieldSize="small"  shape="round" fullWidth [(ngModel)]="element.adresse" [readOnly]="!selection.isSelected(element)" >
+
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="departement">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Departement </mat-header-cell>
+      <mat-cell *matCellDef="let element" >
+
+          <input nbInput fieldSize="small"  shape="round" fullWidth [(ngModel)]="element.departement" [readOnly]="!selection.isSelected(element)"  >
+
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="region">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Region </mat-header-cell>
+      <mat-cell *matCellDef="let element" >
+
+          <input nbInput fieldSize="small"  shape="round" fullWidth  [(ngModel)]="element.region" [readOnly]="!selection.isSelected(element)" >
+
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"  ></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"
+             [ngStyle]="{ 'border': selection.isSelected(row)? '1px solid #0095ff':''}"
+    >
+    </mat-row>
+
+  </mat-table>
+  <mat-paginator [length]= "this.dataSource.totalItem$ | async" [pageSize]="3"
+                 [pageSizeOptions]="[3, 5, 10]" showFirstLastButtons>
+
+  </mat-paginator>
+  </nb-card-body>
+</nb-card>
+
+

@@ -1,0 +1,43 @@
+<nb-card>
+  <nb-card-header>
+    <button status="info" fullWidth="small" nbButton size="small" (click)="toggleField()">
+      Recherche
+      <nb-icon [icon]="classToggled?'arrow-downward-outline':'arrow-upward-outline'"></nb-icon>
+    </button>
+  </nb-card-header>
+  <nb-card-body [class.toggled]=classToggled class="animated fadeInup">
+    <div class="row" >
+
+      <nb-form-field class="col">
+        <input type="text" [(ngModel)]="reference" nbInput fieldSize="small" fullWidth shape="round" placeholder="Reference">
+      </nb-form-field>
+
+      <nb-form-field class="col">
+      <input nbInput fieldSize="small" [(ngModel)]="dateInf"  shape="round" fullWidth name="dateInf" [nbDatepicker]="datepicker" placeholder="date debut">
+      <nb-datepicker #datepicker ></nb-datepicker>
+      </nb-form-field>
+
+      <nb-form-field class="col">
+      <input nbInput fieldSize="small" [(ngModel)]="dateSup" shape="round" fullWidth name="dateSup" [nbDatepicker]="datepickerSup" placeholder="date fin">
+      <nb-datepicker #datepickerSup ></nb-datepicker>
+      </nb-form-field>
+
+      <nb-form-field class="col">
+      <nb-select  placeholder="Canal" [(ngModel)]="canal"   shape="round" fullWidth size="small">
+        <nb-option  *ngFor="let canal of CanalList" [value]="canal">{{canal}}</nb-option>
+      </nb-select>
+      </nb-form-field>
+
+      <nb-form-field class="col">
+      <nb-select class="col" [(ngModel)]="etat"  placeholder="Etat"  shape="round" fullWidth size="small"  >
+        <nb-option   *ngFor="let etatPaiement of EtatPaiementList" [value]="etatPaiement" >{{etatPaiement}}</nb-option>
+      </nb-select>
+      </nb-form-field>
+
+      <button (click)="search()" nbButton status="primary">
+        <nb-icon size="small" icon="search"></nb-icon>
+      </button>
+    </div>
+
+  </nb-card-body>
+</nb-card>

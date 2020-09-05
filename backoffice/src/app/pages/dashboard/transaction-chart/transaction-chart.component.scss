@@ -1,0 +1,11 @@
+.graph {
+  display: block;
+  height: 50vh;
+  width: 100%;
+
+  ::ng-deep chart {
+    display: block;
+    height: 100%;
+    width: 100%;
+  }
+}

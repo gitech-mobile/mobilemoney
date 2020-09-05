@@ -1,0 +1,126 @@
+/* You can add global styles to this file, and also import other style files */
+@import 'themes';
+
+@import '~@nebular/theme/styles/globals';
+
+@include nb-install() {
+  @include nb-theme-global();
+};
+
+html, body { height: 100%; }
+
+.mat-table{
+  background: inherit;
+}
+
+.mat-header-row {
+  background: #a16eff;
+}
+
+.mat-paginator{
+  background: inherit;
+}
+.mat-cell , .mat-header-cell{
+  justify-content: center;
+}
+.mat-cell::selection{
+  border: white;
+}
+/*.mat-row:nth-child(odd){
+  background: rgba(213, 212, 208, 0.03);
+  //margin-bottom: 0;
+}
+.mat-row:nth-child(odd) .mat-cell{
+  background: rgba(213, 212, 208, 0.03);
+  //margin-bottom: 0;
+}*/
+
+/* Importing Bootstrap SCSS file. */
+@import '~bootstrap/scss/bootstrap';
+
+/*fadin effect*/
+.animated {
+  animation-duration: 1s;
+  transition-duration: 1s;
+  transition-timing-function: ease-in-out;
+  animation-fill-mode: both;
+
+  -webkit-animation-duration: 1s;
+}
+
+.fadeInup{
+  animation-name: fadeInUp;
+}
+.fadeInDown{
+  animation-name: fadeInDown;
+}
+.fadeInRight{
+  animation-name: fadeInRight;
+}
+.fadeIn {
+  animation-name: fadeIn;
+}
+
+/*
+ * Keyframes
+ */
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 100%, 0);
+  }
+
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes fadeInDown {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, -100%, 0);
+  }
+
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes fadeInRight {
+  0% {
+    opacity: 0;
+    transform: translate3d(100%, 0, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.mat-select , .mat-option{
+  background-color: #252547;
+  border-color: #13132b;
+  color: #ffffff;
+  border-radius: 1.5rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.5rem;
+  padding: 0.1875rem 1rem;
+}
+
+.mat-select-panel {
+  background-color: #252547;
+}
+.toggled {
+  display: none;
+}

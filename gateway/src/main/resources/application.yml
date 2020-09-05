@@ -1,0 +1,21 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: donne
+          uri: lb://DONNE
+          predicates:
+            - Path=/donne/**
+          filters:
+            - RewritePath=/donne/(?<segment>.*), /$\{segment}
+  security:
+    oauth2:
+      client:
+        provider:
+          keycloak:
+            issuer-uri: ${AUTH_URI:http://localhost:9007/auth/realms/atps}
+            user-name-attribute: preferred_username
+        registration:
+          keycloak:
+            client-id: ${AUTH_CLIENT_ID:monitor}
+            client-secret: ${AUTH_SECRET:015d6586-74d3-4f69-b3b9-037af74b4589}

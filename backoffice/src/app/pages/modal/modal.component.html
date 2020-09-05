@@ -1,0 +1,37 @@
+<!--
+<div class="modal-dial">
+  <div class="modal-header modal-title badge-light">
+    <h3>{{ modalData.context.title }}</h3>
+  </div>
+  <div class="modal-body">
+    <p>{{ modalData.context.description }}</p>
+  </div>
+  <div class="modal-footer">
+    <button nbButton status="warning" (click)="closeModal()">
+      Retour
+    </button>
+    <button nbButton status="info" (click)="actionFunction()">
+      {{ modalData.context.actionButtonText }}
+    </button>
+  </div>
+</div>
+-->
+<nb-card >
+  <nb-card-header class="modal-header">
+  <p class="modal-title">  {{title}}</p>
+  </nb-card-header>
+  <nb-card-body class="modal-body">
+    <p class="modal-dialog-centered"> {{description}} </p>
+  </nb-card-body>
+  <nb-card-footer>
+    <div class="modal-footer" >
+      <button nbButton   status="success" (click)="actionFunction()">
+        <nb-icon icon="save"> </nb-icon> {{actionButtonText}}
+      </button>
+      <button nbButton status="danger" (click)="closeModal()"     >
+        <nb-icon icon="close"></nb-icon>{{closeButtonText}}
+      </button>
+    </div>
+    </nb-card-footer>
+</nb-card>
+
