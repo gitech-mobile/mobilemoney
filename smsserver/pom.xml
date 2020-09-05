@@ -25,7 +25,7 @@
         </dependency>
     </dependencies>
 
-    <!--<build>
+    <build>
         <plugins>
             <plugin>
                 <groupId>com.spotify</groupId>
@@ -37,9 +37,9 @@
                         <goals>
                             <goal>build</goal>
                             <goal>tag</goal>
-&lt;!&ndash;
+<!--
                             <goal>push</goal>
-&ndash;&gt;
+-->
                         </goals>
                         <configuration>
                             <tag>latest</tag>
@@ -50,7 +50,7 @@
                         <goals>
                             <goal>build</goal>
                             <goal>tag</goal>
-                            &lt;!&ndash;<goal>push</goal>&ndash;&gt;
+                            <!--<goal>push</goal>-->
                         </goals>
                         <configuration>
                             <tag>${project.version}</tag>
@@ -69,5 +69,4 @@
 
         </plugins>
     </build>
--->
 </project>
