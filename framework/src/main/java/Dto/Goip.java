@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.net.*;
 
 public class Goip {
-    private DatagramSocket socket;
+    private final DatagramSocket socket;
     private final int port;
     private final InetAddress  addresse;
     private final String password;

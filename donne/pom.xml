@@ -18,7 +18,6 @@
             <groupId>freelance.paiement</groupId>
             <artifactId>framework</artifactId>
             <version>1.0</version>
-            <scope>compile</scope>
         </dependency>
         <!--web-->
         <dependency>

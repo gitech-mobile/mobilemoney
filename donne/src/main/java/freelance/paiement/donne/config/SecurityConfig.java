@@ -3,7 +3,7 @@ package freelance.paiement.donne.config;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
+//import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -24,10 +24,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         ;
     }
 
-    private JwtAuthenticationConverter jwtAuthenticationConverter() {
+    /*private JwtAuthenticationConverter jwtAuthenticationConverter() {
         JwtAuthenticationConverter converter = new JwtAuthenticationConverter();
         // Convert realm_access.roles claims to granted authorities, for use in access decisions
         converter.setJwtGrantedAuthoritiesConverter(new KeycloakRealmRoleConverter());
         return converter;
-    }
+    }*/
 }

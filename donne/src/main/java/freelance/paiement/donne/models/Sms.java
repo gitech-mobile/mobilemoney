@@ -1,9 +1,9 @@
 package freelance.paiement.donne.models;
 
-import Enum.Canal;
 import lombok.*;
 
 import Enum.EtatPaiement;
+import Enum.Canal;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
