@@ -25,11 +25,16 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/setup-java@v1
+      with:
+        java-version: 13
+
+    - name: Build with Maven
+      run: mvn clean install -DskipTests
 
       - name: Run tests
         run: |
           if [ -f docker-compose.test.yml ]; then
-            mvn clean install -DskipTests
             docker-compose --file docker-compose.test.yml build
             docker-compose --file docker-compose.test.yml run sut
           else
