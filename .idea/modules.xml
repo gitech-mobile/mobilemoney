@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/config/config.iml" filepath="$PROJECT_DIR$/config/config.iml" />
+      <module fileurl="file://$PROJECT_DIR$/discovery/discovery.iml" filepath="$PROJECT_DIR$/discovery/discovery.iml" />
+      <module fileurl="file://$PROJECT_DIR$/donne/donne.iml" filepath="$PROJECT_DIR$/donne/donne.iml" />
+      <module fileurl="file://$PROJECT_DIR$/framework/framework.iml" filepath="$PROJECT_DIR$/framework/framework.iml" />
+      <module fileurl="file://$PROJECT_DIR$/gateway/gateway.iml" filepath="$PROJECT_DIR$/gateway/gateway.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/mobilemoney.iml" filepath="$PROJECT_DIR$/.idea/mobilemoney.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mobilepaiement/mobilepaiement.iml" filepath="$PROJECT_DIR$/mobilepaiement/mobilepaiement.iml" />
+      <module fileurl="file://$PROJECT_DIR$/smsserver/smsserver.iml" filepath="$PROJECT_DIR$/smsserver/smsserver.iml" />
+    </modules>
+  </component>
+</project>

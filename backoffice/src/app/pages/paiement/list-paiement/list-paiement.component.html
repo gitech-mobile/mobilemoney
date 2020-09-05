@@ -1,0 +1,84 @@
+<app-search-paiement (paiementChange)="setSearch($event)" ></app-search-paiement>
+<nb-card class="mat-elevation-z8">
+  <nb-card-header> Paiements
+  </nb-card-header>
+  <mat-table class="animated fadeInDown" [dataSource]="dataSource" matSort matSortActive="dateupdate" matSortDirection="asc" (matSortChange)="loadPaiementPage()" matSortDisableClear>
+
+    <ng-container matColumnDef="action">
+      <mat-header-cell  *matHeaderCellDef> action </mat-header-cell>
+      <mat-cell  *matCellDef="let element">
+        <nb-icon nbButton icon="edit-outline" (click)="selection.toggle(element)"></nb-icon>
+        <nb-icon nbButton icon="save-outline"  (click)="saveModal(element)"></nb-icon>
+        <nb-icon nbButton icon="trash-outline" (click)="deleteModal(element)"></nb-icon>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="montant">
+      <mat-header-cell  *matHeaderCellDef mat-sort-header> Montant </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <input nbInput shape="round"  fullWidth fieldSize="small" [(ngModel)]="element.montant" [readOnly]="!selection.isSelected(element)" >
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="reference">
+      <mat-header-cell  *matHeaderCellDef mat-sort-header> Reference </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <input nbInput shape="round"  fullWidth fieldSize="small" [(ngModel)]="element.reference" [readOnly]="!selection.isSelected(element)" >
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="client">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Nom client </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+
+          <input nbInput  shape="round"  fullWidth fieldSize="small" [value]="element.client.prenom + ' ' + element.client.nom"  readOnly>
+
+        </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="partner">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Nom Partenaire </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+      <input nbInput  shape="round" fieldSize="small" fullWidth [value]="element.partner.nom"  readOnly>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="dateupdate">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Date </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <input nbInput fieldSize="small" shape="round" fullWidth [(ngModel)]="element.dateupdate" [nbDatepicker]="datepicker" >
+        <nb-datepicker #datepicker ></nb-datepicker>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="canal">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Canal </mat-header-cell>
+      <mat-cell *matCellDef="let element" >
+        <mat-select nbInput [(ngModel)]="element.canal" >
+          <mat-option  *ngFor="let canal of CanalList" [value]="canal">{{canal}}</mat-option>
+        </mat-select>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="etat">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Status </mat-header-cell>
+      <mat-cell  *matCellDef="let element" >
+        <mat-select  nbInput   [(ngModel)]="element.etat" >
+          <mat-option  *ngFor="let etatPaiement of EtatPaiementList" [value]="etatPaiement" >{{etatPaiement}}</mat-option>
+        </mat-select>
+      </mat-cell>
+    </ng-container>
+
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"  ></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"
+             [ngStyle]="{ 'border': selection.isSelected(row)?'1px solid #0095ff':''}">
+    </mat-row>
+
+  </mat-table>
+  <mat-paginator [length]= "this.dataSource.totalItem$ | async" [pageSize]="3"
+                 [pageSizeOptions]="[3, 5, 10]" showFirstLastButtons
+  ></mat-paginator>
+</nb-card>
+
+

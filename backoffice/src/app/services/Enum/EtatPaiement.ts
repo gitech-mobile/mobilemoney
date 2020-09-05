@@ -1,0 +1,3 @@
+export enum EtatPaiement {
+    ATTENTE ='ATTENTE', ENCOURS = 'ENCOURS',INITIER ='INITIER', VALIDE = 'VALIDE', ANNULER = 'ANNULER', ECHEC = 'ECHEC'
+}

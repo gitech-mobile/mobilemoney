@@ -1,0 +1,77 @@
+<app-search-partner (partnerChange)="setSearch($event)" ></app-search-partner>
+<nb-card class="mat-elevation-z8">
+  <nb-card-header> Partenaire
+    <nb-icon nbButton icon="plus" (click)="ajouter()"></nb-icon>
+  </nb-card-header>
+  <mat-table class="animated fadeInDown" [dataSource]="dataSource" matSort matSortActive="nom" matSortDirection="asc" (matSortChange)="loadPartnerPage()" matSortDisableClear>
+
+    <ng-container matColumnDef="action">
+      <mat-header-cell  *matHeaderCellDef> action </mat-header-cell>
+      <mat-cell  *matCellDef="let element">
+        <nb-icon nbButton icon="edit-outline" (click)="selection.toggle(element)"></nb-icon>
+        <nb-icon nbButton icon="save-outline"  (click)="saveModal(element)"></nb-icon>
+        <nb-icon nbButton icon="trash-outline" (click)="deleteModal(element)"></nb-icon>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="nom">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Nom </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <input nbInput  shape="round"  fullWidth fieldSize="small" [(ngModel)]="element.nom" [readOnly]="!selection.isSelected(element)" >
+      </mat-cell>
+    </ng-container>
+
+
+    <ng-container matColumnDef="adresse">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Adresse </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <input nbInput  shape="round"  fullWidth fieldSize="small" [(ngModel)]="element.adresse" [readOnly]="!selection.isSelected(element)" >
+      </mat-cell>
+    </ng-container>
+
+
+    <ng-container matColumnDef="solde">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Solde </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <input nbInput shape="round" *ngIf="element.compte" fullWidth fieldSize="small"  [(ngModel)]="element.compte.solde" readonly >
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="etat">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Etat </mat-header-cell>
+      <mat-cell  *matCellDef="let element" >
+        <mat-select  nbInput   [(ngModel)]="element.etat" >
+          <mat-option  *ngFor="let etatpartner of EtatPartnerList" [value]="etatpartner" >{{etatpartner}}</mat-option>
+        </mat-select>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="logo">
+      <mat-header-cell  *matHeaderCellDef mat-sort-header> Logo </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+          <input nbInput type="file"  id="logo" shape="round" accept="image/*"  fullWidth fieldSize="small" (change)="uploadFile($event,element)"  [readOnly]="!selection.isSelected(element)" >
+        <img *ngIf="element.logo && element.logo.photo!=undefined" [src]="element.logo.contentType +','+element.logo.photo"  alt="">
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="contrat">
+      <mat-header-cell  *matHeaderCellDef mat-sort-header> Contrat </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+          <input nbInput type="file"  id="contrat" shape="round" accept="image/*" fullWidth fieldSize="small" (change)="uploadContrat($event,element)"  [readOnly]="!selection.isSelected(element)" >
+        <img *ngIf="element.contrat && element.contrat.photo!=undefined" [src]="element.contrat.contentType +','+element.contrat.photo"  alt="">
+      </mat-cell>
+    </ng-container>
+
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"  ></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"
+             [ngStyle]="{ 'border': selection.isSelected(row)? '1px solid #0095ff':''}">
+    ></mat-row>
+
+  </mat-table>
+  <mat-paginator [length]= "this.dataSource.totalItem$ | async" [pageSize]="3"
+                 [pageSizeOptions]="[3, 5, 10]" showFirstLastButtons
+  ></mat-paginator>
+</nb-card>
+
+

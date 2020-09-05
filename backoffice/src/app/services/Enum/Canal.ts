@@ -1,0 +1,4 @@
+
+export enum Canal {
+    ORANGEMONEY='ORANGEMONEY', FREEMONEY = 'FREEMONEY', EMONEY = 'EMONEY'
+}
