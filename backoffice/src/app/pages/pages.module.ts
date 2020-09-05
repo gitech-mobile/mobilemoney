@@ -36,12 +36,10 @@ import {ModalComponent} from './modal/modal.component';
 import {FormsModule} from '@angular/forms';
 import {NbMomentDateModule} from '@nebular/moment'
 import {MatSelectModule} from '@angular/material/select';
-import { SearchClientComponent } from './client/search-client/search-client.component';
 import { SearchPaiementComponent } from './paiement/search-paiement/search-paiement.component';
-import { SearchPartnerComponent } from './partner/search-partner/search-partner.component';
 
 @NgModule({
-  declarations: [HomeComponent, SidebarMenuComponent, PaiementComponent, ListPaiementComponent, AlertComponent, ClientComponent, ListClientComponent, PartnerComponent, ListPartnerComponent, DashboardComponent, TransactionChartComponent, ChartHeaderComponent, ModalComponent, SearchClientComponent, SearchPaiementComponent, SearchPartnerComponent],
+  declarations: [HomeComponent, SidebarMenuComponent, PaiementComponent, ListPaiementComponent, AlertComponent, ClientComponent, ListClientComponent, PartnerComponent, ListPartnerComponent, DashboardComponent, TransactionChartComponent, ChartHeaderComponent, ModalComponent, SearchPaiementComponent],
   exports: [
     HomeComponent
   ],
