@@ -64,10 +64,10 @@ jobs:
 
       - name: Log into GitHub Container Registry
       # TODO: Create a PAT with `read:packages` and `write:packages` scopes and save it as an Actions secret `CR_PAT`
-        run: echo "${{ secrets.CR_PAT }}" | docker login https://ghcr.io -u wadematar --password-stdin
+        run: echo "${{ secrets.CR_PAT }}" | docker login -u wadematar --password-stdin
 
       - name: Push image to GitHub Container Registry
-        run: |
+        run: docker-compose --file docker-compose.build.yml push 
           # IMAGE_ID=ghcr.io/${{ github.repository_owner }}/$IMAGE_NAME
 
           # Change all uppercase to lowercase
@@ -86,4 +86,3 @@ jobs:
           #echo VERSION=$VERSION
 
           #docker-compose tag $IMAGE_NAME $IMAGE_ID:$VERSION
-          docker-compose --file docker-compose.build.yml push 
