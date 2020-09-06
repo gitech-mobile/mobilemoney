@@ -19,6 +19,7 @@
 
     </dependencies>
 
+<!--
     <build>
         <plugins>
             <plugin>
@@ -31,7 +32,9 @@
                         <goals>
                             <goal>build</goal>
                             <goal>tag</goal>
+&lt;!&ndash;
                             <goal>push</goal>
+&ndash;&gt;
                         </goals>
                         <configuration>
                             <tag>latest</tag>
@@ -42,7 +45,7 @@
                         <goals>
                             <goal>build</goal>
                             <goal>tag</goal>
-                            <!--<goal>push</goal>-->
+                            &lt;!&ndash;<goal>push</goal>&ndash;&gt;
                         </goals>
                         <configuration>
                             <tag>${project.version}</tag>
@@ -58,14 +61,8 @@
                     </buildArgs>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <configuration>
-                    <skipTests>true</skipTests>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
+-->
 
 </project>

@@ -1,12 +1,10 @@
 package freelance.paiement.smsserver.config;
 
 import Dto.SmsServer;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import javax.annotation.PostConstruct;
 import java.net.SocketException;
 
 @Component

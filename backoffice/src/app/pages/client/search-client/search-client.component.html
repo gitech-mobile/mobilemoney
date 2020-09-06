@@ -1,0 +1,28 @@
+<nb-card>
+  <nb-card-header>
+    <button status="info" fullWidth="small" nbButton size="small" (click)="toggleField()">
+      Recherche
+      <nb-icon [icon]="classToggled?'arrow-downward-outline':'arrow-upward-outline'"></nb-icon>
+    </button>
+  </nb-card-header>
+  <nb-card-body [class.toggled]=classToggled class="animated fadeInup">
+    <div  class="row" >
+      <nb-form-field class="col">
+        <input type="text" name="nom" [(ngModel)]="client.nom" nbInput fieldSize="small" fullWidth shape="round" placeholder="Nom">
+      </nb-form-field>
+      <nb-form-field class="col">
+        <input type="text" nbInput fieldSize="small" [(ngModel)]="client.prenom" name="prenom" fullWidth shape="round" placeholder="Prenom">
+      </nb-form-field>
+      <nb-form-field class="col">
+        <input type="text" nbInput fieldSize="small" [(ngModel)]="client.numeroCompte" name="numeroCompte" fullWidth shape="round" placeholder="Numero Telephone">
+      </nb-form-field>
+      <nb-form-field class="col">
+        <input type="text" nbInput fieldSize="small" name ="cin" [(ngModel)]="client.cin" fullWidth shape="round" placeholder="Numero Piece">
+      </nb-form-field >
+      <button (click)="search(client)" nbButton status="primary">
+        <nb-icon size="small" icon="search"></nb-icon>
+      </button>
+    </div>
+
+  </nb-card-body>
+</nb-card>

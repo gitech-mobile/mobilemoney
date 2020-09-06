@@ -60,6 +60,8 @@ services:
       - 9080:80
     environment:
       - env=prod
+    depends_on:
+      - gateway
 
   smsserver:
     build: ./smsserver
@@ -94,8 +96,8 @@ services:
       - "-Dkeycloak.migration.provider=dir"
       - "-Dkeycloak.migration.dir=/config/"
       - "-Dkeycloak.migration.strategy=IGNORE_EXISTING"
-    volumes:
-      - ./config:/config/
+    #volumes:
+    #  - ./config:/config/
     env_file:
       - keycloak.env
     ports:
@@ -104,4 +106,13 @@ services:
       - dbmobilepaiement
     restart: on-failure
 
-
+  sut:
+    image: alpine
+    volumes:
+      - ./run_tests.sh:/run_tests.sh
+    entrypoint: "sh /run_tests.sh"
+    depends_on:
+      - donne
+      - gateway
+      - backoffice
+      - smsserver

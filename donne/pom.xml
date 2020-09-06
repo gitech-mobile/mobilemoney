@@ -12,11 +12,6 @@
     <name>donne</name>
     <description>gestion de la persistance</description>
 
-    <properties>
-        <java.version>13</java.version>
-        <spring-cloud.version>Hoxton.SR3</spring-cloud.version>
-    </properties>
-
     <dependencies>
 
         <dependency>
@@ -52,21 +47,10 @@
 
     </dependencies>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-dependencies</artifactId>
-                <version>${spring-cloud.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-
+<!--
     <build>
         <plugins>
-            <!--docker rize-->
+            &lt;!&ndash;docker rize&ndash;&gt;
 
             <plugin>
                 <groupId>com.spotify</groupId>
@@ -79,7 +63,7 @@
                             <goal>build</goal>
                             <goal>tag</goal>
 
-                            <!--<goal>push</goal>-->
+                            &lt;!&ndash;<goal>push</goal>&ndash;&gt;
                         </goals>
                         <configuration>
                             <tag>latest</tag>
@@ -107,17 +91,9 @@
                 </configuration>
             </plugin>
 
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <configuration>
-                    <skipTests>true</skipTests>
-                </configuration>
-            </plugin>
 
         </plugins>
     </build>
-
-
+-->
 
 </project>
