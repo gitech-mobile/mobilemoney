@@ -96,8 +96,8 @@ services:
       - "-Dkeycloak.migration.provider=dir"
       - "-Dkeycloak.migration.dir=/config/"
       - "-Dkeycloak.migration.strategy=IGNORE_EXISTING"
-    volumes:
-      - ./config:/config/
+    #volumes:
+    #  - ./config:/config/
     env_file:
       - keycloak.env
     ports:
@@ -108,8 +108,10 @@ services:
 
 
   sut:
-    image: alpinelinux/alpine-gitlab-ci
-    entrypoint: run_tests.sh
+    image: alpinelinux/build-base
+    volumes:
+    - ./run_tests.sh:
+    entrypoint: ./run_tests.sh
     depends_on:
       - donne
       - gateway
