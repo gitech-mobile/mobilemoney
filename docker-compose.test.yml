@@ -109,8 +109,8 @@ services:
   sut:
     image: alpine
     volumes:
-      - ./run_tests.sh:/home/run_tests.sh
-    entrypoint: "sh /home/run_tests.sh"
+      - ./run_tests.sh:/run_tests.sh
+    entrypoint: "sh /run_tests.sh"
     depends_on:
       - donne
       - gateway
