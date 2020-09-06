@@ -105,5 +105,3 @@ services:
     depends_on:
       - dbmobilepaiement
     restart: on-failure
-
-
