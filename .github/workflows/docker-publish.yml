@@ -86,4 +86,4 @@ jobs:
           #echo VERSION=$VERSION
 
           #docker-compose tag $IMAGE_NAME $IMAGE_ID:$VERSION
-          docker-compose push 
+          docker-compose --file docker-compose.build.yml push 
