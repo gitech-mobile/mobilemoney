@@ -106,11 +106,10 @@ services:
       - dbmobilepaiement
     restart: on-failure
 
-
   sut:
     image: alpine
     volumes:
-    - ./run_tests.sh: /home/
+      - ./run_tests.sh: /home/
     entrypoint: "sh /home/run_tests.sh"
     depends_on:
       - donne
