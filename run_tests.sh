@@ -1,1 +1,2 @@
-return 0
+#!/bin/sh
+echo 'finish'
