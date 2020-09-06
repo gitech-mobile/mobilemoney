@@ -1,0 +1,80 @@
+version: '3.7'
+services:
+  discovery:
+    image: wadematar/mobilemoney_discovery
+    build: ./discovery
+    ports:
+      - 9003:9003
+    env_file:
+      - mobilemoney.env
+    restart: on-failure
+
+  config:
+    image: wadematar/mobilemoney_config
+    build: ./config
+    ports:
+      - 9000:9000
+    env_file:
+      - config/config.env
+    depends_on:
+      - discovery
+    restart: on-failure
+
+  gateway:
+    image: wadematar/mobilemoney_gateway
+    build:
+      ./gateway
+    ports:
+      - 9002:9002
+    env_file:
+      - mobilemoney.env
+    depends_on:
+      - discovery
+      - config
+      - keycloak
+    restart: on-failure
+
+  donne:
+    image: wadematar/mobilemoney_donne
+    build: ./donne
+    ports:
+      - 9001:9001
+    env_file:
+      - donne/donne.env
+    depends_on:
+      - discovery
+      - config
+
+  mobilepaiement:
+    image: wadematar/mobilemoney_mobilepaiement
+    build: ./mobilepaiement
+    ports:
+      - 9004:9004
+    env_file:
+      - mobilepaiement/mobilepaiement.env
+    depends_on:
+      - config
+      - discovery
+      - donne
+
+  backoffice:
+    image: wadematar/mobilemoney_backoffice
+    build: ./backoffice
+    ports:
+      - 9080:80
+    environment:
+      - env=prod
+    depends_on:
+      - gateway
+
+  smsserver:
+    image: wadematar/mobilemoney_smsserver
+    build: ./smsserver
+    ports:
+      - 9006:9006
+    env_file:
+      - smsserver/smsserver.env
+    depends_on:
+      - config
+      - donne
+      - discovery
