@@ -111,7 +111,7 @@ services:
     image: alpine
     volumes:
     - ./run_tests.sh: /home/
-    entrypoint: "sh run_tests.sh"
+    entrypoint: "sh /home/run_tests.sh"
     depends_on:
       - donne
       - gateway
