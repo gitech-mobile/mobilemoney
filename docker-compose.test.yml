@@ -108,9 +108,9 @@ services:
 
 
   sut:
-    image: alpine
+    image:
     volumes:
-    - ./run_tests.sh: /run_tests.sh
+    - ./run_tests.sh: /home/
     entrypoint: "sh run_tests.sh"
     depends_on:
       - donne
