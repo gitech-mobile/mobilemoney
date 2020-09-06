@@ -30,13 +30,14 @@ jobs:
           java-version: 13
 
       - name: Build with Maven
-        run: mvn clean install -DskipTests
+        #run: mvn clean install -DskipTests
 
       - name: Run tests
         run: |
           if [ -f docker-compose.test.yml ]; then
-            docker-compose --file docker-compose.test.yml build
-            docker-compose --file docker-compose.test.yml run sut
+           # docker-compose --file docker-compose.test.yml build
+           # docker-compose --file docker-compose.test.yml run sut
+           docker ps
           else
             docker build . --file Dockerfile
           fi
@@ -64,7 +65,7 @@ jobs:
 
       - name: Log into GitHub Container Registry
       # TODO: Create a PAT with `read:packages` and `write:packages` scopes and save it as an Actions secret `CR_PAT`
-        run: echo "${{ secrets.CR_PAT }}" | docker login -u wadematar --password-stdin
+        run: echo "${{ secrets.CR_PAT }}" | docker login --username wadematar --password-stdin
 
       - name: Push image to GitHub Container Registry
         run: docker-compose --file docker-compose.build.yml push 
