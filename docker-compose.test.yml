@@ -105,3 +105,7 @@ services:
     depends_on:
       - dbmobilepaiement
     restart: on-failure
+
+    sut:
+      build: .
+      command: run_tests.sh
