@@ -109,9 +109,8 @@ services:
 
   sut:
     build: test
-    volumes:
-      - ./run_tests.sh: /run_tests.sh
-    entrypoint: ./run_tests.sh
+    command:
+     - "curl http://donne:9001"
     depends_on:
       - donne
       - gateway
