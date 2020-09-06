@@ -110,3 +110,7 @@ services:
   sut:
     image: alpinelinux/alpine-gitlab-ci
     command: run_tests.sh
+    depends_on:
+      - donne
+      - gateway
+      - backoffice

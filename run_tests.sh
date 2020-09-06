@@ -1,5 +1,5 @@
 #!/bin/sh
-if curl web | grep -q '<b>Visits:</b> ';
+if curl donne | grep -q '401';
   then
     echo "Tests passed!"
     exit 0
