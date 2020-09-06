@@ -108,7 +108,7 @@ services:
 
 
   sut:
-    image: alpine:latest
+    image: alpine
     volumes:
     - ./run_tests.sh: /home/
     entrypoint: "sh run_tests.sh"
