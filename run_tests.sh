@@ -1,5 +1,5 @@
 #!/bin/sh
-if wget http://localhosr:9001  | grep -q '401';
+if wget http://localhost:9001  | grep -q '401';
   then
     echo "Tests passed!"
     exit 0
