@@ -1,0 +1,7 @@
+FROM alpine:3.7
+
+WORKDIR /home
+
+ADD run_tests.sh /home/run_tests.sh
+
+CMD ["bash", "run_tests.sh"]

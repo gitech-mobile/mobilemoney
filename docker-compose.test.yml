@@ -108,9 +108,10 @@ services:
 
 
   sut:
-    build: test
-    command:
-     - "curl http://donne:9001"
+    image: alpine
+    volumes:
+    - ./run_tests.sh: /run_tests.sh
+    entrypoint: "sh run_tests.sh"
     depends_on:
       - donne
       - gateway
