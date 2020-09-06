@@ -29,19 +29,17 @@ jobs:
         with:
           java-version: 13
 
-      #- name: Build with Maven
-        #run: mvn clean install -DskipTests
+      - name: Build with Maven
+        run: mvn clean install -DskipTests
 
       - name: Run tests
         run: |
           if [ -f docker-compose.test.yml ]; then
-           # docker-compose --file docker-compose.test.yml build
-           # docker-compose --file docker-compose.test.yml run sut
-           docker ps
+            docker-compose --file docker-compose.test.yml build
+            docker-compose --file docker-compose.test.yml run sut
           else
             docker build . --file Dockerfile
           fi
-
   # Push image to GitHub Packages.
   # See also https://docs.docker.com/docker-hub/builds/
   push:
@@ -68,21 +66,17 @@ jobs:
         run: echo "${{ secrets.CR_PAT }}" | docker login --username wadematar --password-stdin
 
       - name: Push image to GitHub Container Registry
-        run: docker-compose --file docker-compose.build.yml push 
+        run: |
           # IMAGE_ID=ghcr.io/${{ github.repository_owner }}/$IMAGE_NAME
-
           # Change all uppercase to lowercase
           #IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
-
           # Strip git ref prefix from version
           #VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
           # Strip "v" prefix from tag name
           #[[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
-
           # Use Docker `latest` tag convention
           #[ "$VERSION" == "master" ] && VERSION=latest
-
           #echo IMAGE_ID=$IMAGE_ID
           #echo VERSION=$VERSION
-
           #docker-compose tag $IMAGE_NAME $IMAGE_ID:$VERSION
+          docker-compose --file docker-compose.build.yml push 
