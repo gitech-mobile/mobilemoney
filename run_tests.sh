@@ -1,5 +1,5 @@
 #!/bin/sh
-if curl donne | grep -q '401';
+if wget donne | grep -q '401';
   then
     echo "Tests passed!"
     exit 0
