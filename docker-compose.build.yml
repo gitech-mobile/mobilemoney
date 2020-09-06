@@ -31,7 +31,6 @@ services:
     depends_on:
       - discovery
       - config
-      - keycloak
     restart: on-failure
 
   donne:
