@@ -1,5 +1,5 @@
 #!/bin/sh
-if wget http://localhost:9003/eureka  | grep -q 'eureka';
+if wget http://discovery:9003/eureka  | grep -q 'eureka';
   then
     echo "Tests passed!"
     exit 0
