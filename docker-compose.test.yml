@@ -110,8 +110,8 @@ services:
   sut:
     image: alpinelinux/build-base
     volumes:
-      - ./run_tests.sh: /
-    entrypoint: ./run_tests.sh
+      - ./run_tests.sh: /home
+    entrypoint: /home/run_tests.sh
     depends_on:
       - donne
       - gateway
