@@ -60,6 +60,8 @@ services:
       - 9080:80
     environment:
       - env=prod
+    depends_on:
+      - gateway
 
   smsserver:
     build: ./smsserver
