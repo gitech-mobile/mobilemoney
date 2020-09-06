@@ -108,5 +108,5 @@ services:
 
 
   sut:
-    build: .
+    image: alpinelinux/alpine-gitlab-ci
     command: run_tests.sh
