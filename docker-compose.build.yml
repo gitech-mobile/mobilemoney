@@ -13,7 +13,7 @@ services:
     image: wadematar/mobilemoney_config
     build: ./config
     ports:
-    - 9000:9000
+      - 9000:9000
     env_file:
       - config/config.env
     depends_on:
@@ -25,27 +25,24 @@ services:
     build:
       ./gateway
     ports:
-    - 9002:9002
+      - 9002:9002
     env_file:
       - mobilemoney.env
     depends_on:
       - discovery
       - config
-      - keycloak
     restart: on-failure
 
   donne:
     image: wadematar/mobilemoney_donne
     build: ./donne
     ports:
-    - 9001:9001
+      - 9001:9001
     env_file:
       - donne/donne.env
     depends_on:
       - discovery
       - config
-      - keycloak
-      - dbmobilepaiement
 
   mobilepaiement:
     image: wadematar/mobilemoney_mobilepaiement
@@ -80,46 +77,3 @@ services:
       - config
       - donne
       - discovery
-
-
-  #utility
-  dbmobilepaiement:
-    image: "postgres" # use latest official postgres version
-    ports:
-      - 9054:5432
-    env_file:
-      - database.env
-    volumes:
-      - ./dbinitKeycloak.sql:/docker-entrypoint-initdb.d/init.sql
-      - database-data=/var/lib/postgresql/data/
-    restart: on-failure
-
-  keycloak:
-    image: jboss/keycloak:latest
-    command:
-      - "-b"
-      - "0.0.0.0"
-      - "-Dkeycloak.migration.action=import"
-      - "-Dkeycloak.migration.provider=dir"
-      - "-Dkeycloak.migration.dir=/config/"
-      - "-Dkeycloak.migration.strategy=IGNORE_EXISTING"
-    #volumes:
-    #  - ./config:/config/
-    env_file:
-      - keycloak.env
-    ports:
-      - "9007:8080"
-    depends_on:
-      - dbmobilepaiement
-    restart: on-failure
-
-  sut:
-    image: alpine
-    volumes:
-      - ./run_tests.sh:/run_tests.sh
-    entrypoint: "sh /run_tests.sh"
-    depends_on:
-      - donne
-      - gateway
-      - backoffice
-      - smsserver

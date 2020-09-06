@@ -1,6 +1,7 @@
 version: '3.7'
 services:
   discovery:
+    image: wadematar/mobilemoney_discovery
     build: ./discovery
     ports:
       - 9003:9003
@@ -9,6 +10,7 @@ services:
     restart: on-failure
 
   config:
+    image: wadematar/mobilemoney_config
     build: ./config
     ports:
       - 9000:9000
@@ -19,6 +21,7 @@ services:
     restart: on-failure
 
   gateway:
+    image: wadematar/mobilemoney_gateway
     build:
       ./gateway
     ports:
@@ -32,6 +35,7 @@ services:
     restart: on-failure
 
   donne:
+    image: wadematar/mobilemoney_donne
     build: ./donne
     ports:
       - 9001:9001
@@ -44,6 +48,7 @@ services:
       - dbmobilepaiement
 
   mobilepaiement:
+    image: wadematar/mobilemoney_mobilepaiement
     build: ./mobilepaiement
     ports:
       - 9004:9004
@@ -55,13 +60,17 @@ services:
       - donne
 
   backoffice:
+    image: wadematar/mobilemoney_backoffice
     build: ./backoffice
     ports:
       - 9080:80
     environment:
       - env=prod
+    depends_on:
+      - gateway
 
   smsserver:
+    image: wadematar/mobilemoney_smsserver
     build: ./smsserver
     ports:
       - 9006:9006
@@ -71,8 +80,6 @@ services:
       - config
       - donne
       - discovery
-
-
   #utility
   dbmobilepaiement:
     image: "postgres" # use latest official postgres version
