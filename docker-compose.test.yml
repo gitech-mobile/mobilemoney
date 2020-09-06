@@ -108,7 +108,7 @@ services:
 
 
   sut:
-    image: alpinelinux/build-base
+    build: test
     volumes:
       - ./run_tests.sh: /run_tests.sh
     entrypoint: ./run_tests.sh
