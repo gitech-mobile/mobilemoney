@@ -11,7 +11,7 @@ services:
   config:
     build: ./config
     ports:
-    - 9000:9000
+      - 9000:9000
     env_file:
       - config/config.env
     depends_on:
@@ -22,7 +22,7 @@ services:
     build:
       ./gateway
     ports:
-    - 9002:9002
+      - 9002:9002
     env_file:
       - mobilemoney.env
     depends_on:
@@ -34,7 +34,7 @@ services:
   donne:
     build: ./donne
     ports:
-    - 9001:9001
+      - 9001:9001
     env_file:
       - donne/donne.env
     depends_on:
@@ -103,5 +103,3 @@ services:
     depends_on:
       - dbmobilepaiement
     restart: on-failure
-
-
