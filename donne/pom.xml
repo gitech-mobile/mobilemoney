@@ -8,7 +8,7 @@
         <version>1.0</version>
     </parent>
     <artifactId>donne</artifactId>
-    <version>0.1</version>
+    <version>2.0</version>
     <name>donne</name>
     <description>gestion de la persistance</description>
 
