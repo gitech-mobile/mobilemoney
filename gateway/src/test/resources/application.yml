@@ -1,0 +1,10 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: donne
+          uri: lb://DONNE
+          predicates:
+            - Path=/donne/**
+          filters:
+            - RewritePath=/donne/(?<segment>.*), /$\{segment}

@@ -13,9 +13,9 @@ spring:
       client:
         provider:
           keycloak:
-            issuer-uri: ${AUTH_URI:http://localhost:9007/auth/realms/atps}
+            issuer-uri: ${AUTH_URI:http://localhost:9007/auth/realms/mobilepaiement}
             user-name-attribute: preferred_username
         registration:
           keycloak:
-            client-id: ${AUTH_CLIENT_ID:monitor}
-            client-secret: ${AUTH_SECRET:015d6586-74d3-4f69-b3b9-037af74b4589}
+            client-id: ${AUTH_CLIENT_ID:mobilepaiement}
+            client-secret: ${AUTH_SECRET:3ef10a8f-971d-4a04-b7c5-9a2228a728eb}
