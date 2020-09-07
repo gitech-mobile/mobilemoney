@@ -5,10 +5,15 @@ import {DashboardComponent} from './pages/dashboard/dashboard.component';
 import {PaiementComponent} from './pages/paiement/paiement.component';
 import {PartnerComponent} from './pages/partner/partner.component';
 import {ClientComponent} from './pages/client/client.component';
+import {AuthentificationGuard} from './services/guards/authentification.guard';
 
 
 const routes: Routes = [
-  {path: '', pathMatch: 'full', redirectTo : 'dashboard'},
+  {path: '',
+    canActivate: [AuthentificationGuard],
+    pathMatch: 'full',
+    redirectTo : 'dashboard',
+  },
   {path: 'home', component: HomeComponent},
   {path: 'paiement', component: PaiementComponent},
   {path: 'partner', component: PartnerComponent},
