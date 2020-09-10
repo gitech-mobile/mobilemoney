@@ -1,7 +1,7 @@
 version: '3.7'
 services:
   discovery:
-    image: wadematar/mobilemoney_discovery
+    #image: wadematar/mobilemoney_discovery
     build: ./discovery
     ports:
       - 9003:9003
@@ -10,7 +10,7 @@ services:
     restart: on-failure
 
   config:
-    image: wadematar/mobilemoney_config
+    #image: wadematar/mobilemoney_config
     build: ./config
     ports:
       - 9000:9000
@@ -21,7 +21,7 @@ services:
     restart: on-failure
 
   gateway:
-    image: wadematar/mobilemoney_gateway
+    #image: wadematar/mobilemoney_gateway
     build:
       ./gateway
     ports:
@@ -35,7 +35,7 @@ services:
     restart: on-failure
 
   donne:
-    image: wadematar/mobilemoney_donne
+    #image: wadematar/mobilemoney_donne
     build: ./donne
     ports:
       - 9001:9001
@@ -48,7 +48,7 @@ services:
       - dbmobilepaiement
 
   mobilepaiement:
-    image: wadematar/mobilemoney_mobilepaiement
+    #image: wadematar/mobilemoney_mobilepaiement
     build: ./mobilepaiement
     ports:
       - 9004:9004
@@ -60,7 +60,7 @@ services:
       - donne
 
   backoffice:
-    image: wadematar/mobilemoney_backoffice
+    #image: wadematar/mobilemoney_backoffice
     build: ./backoffice
     ports:
       - 9080:80
@@ -70,7 +70,7 @@ services:
       - gateway
 
   smsserver:
-    image: wadematar/mobilemoney_smsserver
+    #image: wadematar/mobilemoney_smsserver
     build: ./smsserver
     ports:
       - 9006:9006
