@@ -16,11 +16,11 @@ public interface PaiementRepository extends JpaRepository<Paiement,Long>, JpaSpe
     Page<Paiement> findByEtatAndCanal(EtatPaiement etatpaiement, Canal canal, Pageable pageable);
     Optional<Paiement> findFirstByMontantAndClientAndEtat(Float montant, Client client, EtatPaiement etat);
 
-    @Query(value = "SELECT SUM(montant) FROM paiement where YEAR (dateupdate) = ?1 and MONTH(dateupdate) = ?2 and etat = ?3"
+    @Query(value = "SELECT SUM(montant) FROM paiement where EXTRACT (YEAR from dateupdate) = ?1 and EXTRACT (MONTH from dateupdate) = ?2 and etat = ?3"
             , nativeQuery = true)
     Float getSommeMois(Long year, Integer month, int etatpaiement);
 
-    @Query(value = "SELECT SUM(montant) FROM paiement where DAY (dateupdate) = ?1  and etat = ?2"
+    @Query(value = "SELECT SUM(montant) FROM paiement where EXTRACT (DAY from dateupdate) = ?1  and etat = ?2"
             , nativeQuery = true)
     Float getSommeJour(int day, int etatpaiement);
 }
