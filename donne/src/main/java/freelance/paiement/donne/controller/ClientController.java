@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import reactor.util.annotation.Nullable;
@@ -30,6 +31,7 @@ public class ClientController {
      * @return ResponseEntity<List<Client>>
      */
     @GetMapping
+    @PreAuthorize("hasAnyRole('ROLE_PARTNER','ROLE_SUPPORT')")
     ResponseEntity<List<Client>> all(Pageable pageable){
         Page<Client> page = clientService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
@@ -42,6 +44,7 @@ public class ClientController {
      * @return ResponseEntity<Client>
      */
     @PutMapping
+    @PreAuthorize ("hasAnyRole('ROLE_SUPPORT')")
     ResponseEntity<Client> put(
             @RequestBody @Valid
             Client client
@@ -53,6 +56,7 @@ public class ClientController {
      * @return ResponseEntity<Client>
      */
     @GetMapping(value = "/search")
+    @PreAuthorize ("hasAnyRole('ROLE_PARTNER','ROLE_SUPPORT')")
     ResponseEntity<List<Client>> search(
             @Nullable String nom, @Nullable String prenom, @Nullable String numeroCompte, @Nullable String cin,
             @PageableDefault(size = 10) Pageable pageable
@@ -74,6 +78,7 @@ public class ClientController {
      * @return ResponseEntity<Client>
      */
     @PostMapping
+    @PreAuthorize ("hasAnyRole('ROLE_PARTNER','ROLE_SUPPORT')")
     ResponseEntity<Client> post(
             @RequestBody @Valid
             Client client
@@ -87,6 +92,7 @@ public class ClientController {
      * @return ResponseEntity<Client>
      */
     @DeleteMapping
+    @PreAuthorize ("hasAnyRole('ROLE_ADMIN')")
     ResponseEntity<Boolean> delete(Long id){
         return ResponseEntity.ok(clientService.deleteClient(id));
     }

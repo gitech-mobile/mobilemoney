@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -32,6 +33,7 @@ public class CompteController {
      */
     //@Operation(summary = "Récupère l'ensemble des comptes du système")
     @GetMapping
+    @PreAuthorize("hasAnyRole('ROLE_PARTNER','ROLE_ADMIN')")
     public ResponseEntity<List<Compte>> all(Pageable pageable) {
         Page<Compte> page= compteService.getAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
@@ -45,6 +47,7 @@ public class CompteController {
      */
    // @Operation(summary = "Permet d ajouter un compte")
     @PostMapping
+    @PreAuthorize ("hasAnyRole('ROLE_ADMIN')")
     public ResponseEntity<Compte> add(
             @RequestBody @Valid
                     Compte compte

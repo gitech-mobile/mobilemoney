@@ -7,14 +7,15 @@ import freelance.paiement.donne.exceptions.CustomException;
 import freelance.paiement.donne.models.Paiement;
 import freelance.paiement.donne.services.IPaiementService;
 import freelance.paiement.donne.utils.PaginationUtil;
-//import io.swagger.annotations.Api;
-//import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import reactor.util.annotation.Nullable;
@@ -33,6 +34,7 @@ import java.util.Map;
 public class PaiementController {
     private final IPaiementService paiementService;
 
+
     public PaiementController(IPaiementService paiementService) {
         this.paiementService = paiementService;
     }
@@ -45,7 +47,8 @@ public class PaiementController {
      */
    // @Operation(summary = "Récupère l'ensemble des paiements du système")
     @GetMapping
-    public ResponseEntity<List<Paiement>> all(Pageable pageable) {
+    @PreAuthorize ("hasAnyRole('ROLE_PARTNER','ROLE_SUPPORT')")
+    public ResponseEntity<List<Paiement>> all(Pageable pageable, @AuthenticationPrincipal Jwt jwt) {
         Page<Paiement>  page= paiementService.getAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
@@ -88,6 +91,7 @@ public class PaiementController {
      */
     //@Operation(summary = "Recherche multicritere sur les paiements")
     @GetMapping("/search")
+    @PreAuthorize ("hasAnyRole('ROLE_PARTNER','ROLE_SUPPORT')")
     public ResponseEntity<List<Paiement>> search(
             @Nullable String reference, @Nullable EtatPaiement etatPaiement, @Nullable Canal canal,
             @Nullable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date dateInf,
@@ -117,6 +121,7 @@ public class PaiementController {
      */
     //@Operation(summary = "Récupère les paiements par canal et etat")
     @GetMapping("/statmonth")
+    @PreAuthorize ("hasAnyRole('ROLE_PARTNER','ROLE_SUPPORT')")
     public ResponseEntity<Map<LocalDate, Float>> getStatMois(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date date, EtatPaiement etatPaiement) {
         return ResponseEntity.ok(paiementService.getStatMois(LocalDate.from(date.toInstant().atZone(ZoneId.systemDefault())), etatPaiement.ordinal()));
     }
@@ -129,6 +134,7 @@ public class PaiementController {
      */
     //@Operation(summary = "Récupère les paiements par canal et etat")
     @GetMapping("/statyear")
+    @PreAuthorize ("hasAnyRole('ROLE_PARTNER','ROLE_SUPPORT')")
     public ResponseEntity<Map<Month, Float>> getStatYear( Long year, EtatPaiement etatPaiement) {
         return ResponseEntity.ok(paiementService.getStatYear(year, etatPaiement.ordinal()));
     }
@@ -141,6 +147,7 @@ public class PaiementController {
      */
     //@Operation(summary = "Récupère les paiements par canal et etat")
     @GetMapping("/statweek")
+    @PreAuthorize ("hasAnyRole('ROLE_PARTNER','ROLE_SUPPORT')")
     public ResponseEntity<Map<DayOfWeek, Float>> getStatWeek(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date date, EtatPaiement etatPaiement) {
         return ResponseEntity.ok(paiementService.getStatWeek(date,etatPaiement.ordinal()));
     }
@@ -152,9 +159,11 @@ public class PaiementController {
      */
     //@Operation(summary = "Récupère les informations d'un paiement par son id")
     @GetMapping("/id")
+    @PreAuthorize ("hasAnyRole('ROLE_PARTNER','ROLE_SUPPORT')")
     public ResponseEntity<Paiement> findPaiementById(Long id) {
         return ResponseEntity.ok(paiementService.getById(id));
     }
+
     /**
      *
      * @param paiement
@@ -162,7 +171,8 @@ public class PaiementController {
      */
     //@Operation(summary = "Permet de faire un update sur un paiement")
     @PutMapping
-    public ResponseEntity<Paiement> findServerById(
+    @PreAuthorize ("hasAnyRole('ROLE_SUPPORT')")
+    public ResponseEntity<Paiement> updatePaiement(
             @RequestBody @Valid
                     Paiement paiement) {
         return ResponseEntity.ok(paiementService.update(paiement));
@@ -175,6 +185,7 @@ public class PaiementController {
      */
     //@Operation(summary = "Permet lancer le process du paiement")
     @PostMapping
+    @PreAuthorize ("hasAnyRole('ROLE_PARTNER')")
     public ResponseEntity<Paiement> add(
             @RequestBody @Valid
             Paiement paiement

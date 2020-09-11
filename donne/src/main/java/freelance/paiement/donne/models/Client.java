@@ -2,6 +2,7 @@ package freelance.paiement.donne.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import org.checkerframework.common.aliasing.qual.Unique;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -21,6 +22,7 @@ public class Client {
     @GeneratedValue
     private Long id;
     private String adresse;
+    @Unique
     private String numeroCompte;
     private String departement;
     private String cin;

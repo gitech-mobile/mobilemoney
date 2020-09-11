@@ -14,7 +14,7 @@ html, body { height: 100%; }
 }
 
 .mat-header-row {
-  background: #a16eff;
+  background: #011f4b ;
 }
 
 .mat-paginator{
@@ -123,4 +123,12 @@ html, body { height: 100%; }
 }
 .toggled {
   display: none;
+}
+.logo {
+  display: block;
+  width: 10%;
+  height: 10%;
+}
+.top-bar{
+  display: inline-flex;
 }

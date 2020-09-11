@@ -11,8 +11,7 @@ import {ModalComponent} from '../../modal/modal.component';
 
 @Component({
   selector: 'app-list-client',
-  templateUrl: './list-client.component.html',
-  styleUrls: ['./list-client.component.css']
+  templateUrl: './list-client.component.html'
 })
 export class ListClientComponent implements OnInit, AfterViewInit {
   dataSource: ClientDataSource;
@@ -32,7 +31,7 @@ export class ListClientComponent implements OnInit, AfterViewInit {
     this.dataSource.loadClient();
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     this.paginator.page
       .pipe(
         tap(() => this.loadClientPage())
@@ -40,7 +39,7 @@ export class ListClientComponent implements OnInit, AfterViewInit {
       .subscribe();
   }
 
-  loadClientPage() {
+  loadClientPage(): void {
     this.dataSource.loadClient(
       this.sorted(),
       this.paginator.pageIndex,
@@ -48,7 +47,7 @@ export class ListClientComponent implements OnInit, AfterViewInit {
     );
   }
 
-  sorted() {
+  sorted(): any {
     const result = [this.sort.active + ',' + (this.sort.direction)];
     if (this.sort.active !== 'id') {
       result.push('id');
@@ -56,16 +55,16 @@ export class ListClientComponent implements OnInit, AfterViewInit {
     return result;
   }
 
-  transition() {
+  transition(): void {
     this.loadClientPage();
   }
 
 
-  updateData(element){
+  updateData(element): void {
     console.log(element);
   }
 
-  save(client: Client) {
+  save(client: Client): void {
     console.log(client);
     if(client.id)
       this.clientService.update(client).subscribe(
@@ -92,7 +91,7 @@ export class ListClientComponent implements OnInit, AfterViewInit {
   );
   }
 
-  deleteModal(client: Client) {
+  deleteModal(client: Client): void {
     const modalDialog = this.dialogService.open(ModalComponent,{
       context: {
         description: 'Etes vous sure de vouloir supprimer le client ' +client.nom + '?',
@@ -106,7 +105,7 @@ export class ListClientComponent implements OnInit, AfterViewInit {
     );
   }
 
-  saveModal(client: Client) {
+  saveModal(client: Client): void {
 
     const modalDialog = this.dialogService.open(ModalComponent, {context: {
       description: 'Etes vous sure de vouloir modifier le client ' +client.nom + '?',
@@ -123,13 +122,13 @@ export class ListClientComponent implements OnInit, AfterViewInit {
     this.selection.deselect(client);
   }
 
-  ajouter() {
+  ajouter(): void{
     console.log('ajouter');
     this.dataSource.addRowClient(new Client());
   }
 
 
-  setSearch($event: any) {
+  setSearch($event: any): void {
     this.dataSource.searchChange($event);
     this.transition();
   }

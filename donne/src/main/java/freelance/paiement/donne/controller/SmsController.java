@@ -28,7 +28,6 @@ public class SmsController {
 
 
     @GetMapping
-   // @Operation(summary = "sauvegarde des sms")
     public ResponseEntity<String> saveSms(
             String expediteur,
             String sim,
