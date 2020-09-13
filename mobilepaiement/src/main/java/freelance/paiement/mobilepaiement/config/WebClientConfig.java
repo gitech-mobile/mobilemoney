@@ -17,7 +17,7 @@ public class WebClientConfig {
                 new ServerOAuth2AuthorizedClientExchangeFilterFunction(
                         clientRegistrations,
                         new UnAuthenticatedServerOAuth2AuthorizedClientRepository());
-        oauth.setDefaultClientRegistrationId("paiementserver");
+        oauth.setDefaultClientRegistrationId("keycloak");
         return WebClient.builder().filter(oauth);
     }
 }

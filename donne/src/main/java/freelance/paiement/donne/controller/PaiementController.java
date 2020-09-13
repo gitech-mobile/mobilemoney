@@ -13,6 +13,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -21,6 +22,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import reactor.util.annotation.Nullable;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.Month;
@@ -48,7 +50,7 @@ public class PaiementController {
    // @Operation(summary = "Récupère l'ensemble des paiements du système")
     @GetMapping
     @PreAuthorize ("hasAnyRole('ROLE_PARTNER','ROLE_SUPPORT')")
-    public ResponseEntity<List<Paiement>> all(Pageable pageable, @AuthenticationPrincipal Jwt jwt) {
+    public ResponseEntity<List<Paiement>> all(Pageable pageable) {
         Page<Paiement>  page= paiementService.getAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
@@ -62,6 +64,7 @@ public class PaiementController {
      */
    // @Operation(summary = "Récupère les paiements par canal et etat")
     @GetMapping("/scheduler")
+    @PreAuthorize("hasRole('ROLE_uma_authorization')")
     public ResponseEntity<List<Paiement>> getpaiement(
             Canal canal,
             EtatPaiement etatPaiement,
@@ -171,7 +174,7 @@ public class PaiementController {
      */
     //@Operation(summary = "Permet de faire un update sur un paiement")
     @PutMapping
-    @PreAuthorize ("hasAnyRole('ROLE_SUPPORT')")
+    @PreAuthorize ("hasRole('ROLE_SUPPORT') or hasRole('ROLE_uma_authorization')")
     public ResponseEntity<Paiement> updatePaiement(
             @RequestBody @Valid
                     Paiement paiement) {

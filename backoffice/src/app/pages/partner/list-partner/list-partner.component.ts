@@ -19,9 +19,9 @@ import {Compte} from '../../../services/data/Compte';
 export class ListPartnerComponent implements OnInit, AfterViewInit {
 
   dataSource: PartnerDataSource;
-  selection = new SelectionModel<Partner>(false,null);
+  selection = new SelectionModel<Partner>(false, null);
   EtatPartnerList = Object.keys(EtatPartner);
-  displayedColumns: string[] = ['action','logo','nom','adresse','etat','solde','contrat'];
+  displayedColumns: string[] = ['action', 'logo', 'nom', 'identifiant', 'email', 'adresse', 'etat', 'solde', 'contrat'];
   constructor(protected partnerService: PartnerService, private dialogService: NbDialogService) {
   }
 
@@ -44,14 +44,15 @@ export class ListPartnerComponent implements OnInit, AfterViewInit {
   }
 
   uploadFile(event, partner: Partner) {
-    if(partner.logo == null)
+    if (partner.logo == null) {
       partner.logo = new Photo();
+    }
 
     if (event.target.value) {
       const file = event.target.files[0];
       const type = file.type;
       this.changeFile(file).then((base64: string): any => {
-        const arr = base64.split(",", 2)
+        const arr = base64.split(',', 2);
         partner.logo.photo = arr[1];
         partner.logo.contentType = arr[0] ;
       });
@@ -59,8 +60,8 @@ export class ListPartnerComponent implements OnInit, AfterViewInit {
   }
 
   uploadContrat(event, partner: Partner) {
-    console.log("change");
-    if(partner.contrat == null){
+    console.log('change');
+    if (partner.contrat == null){
       partner.contrat = new Photo();
     }
 
@@ -68,7 +69,7 @@ export class ListPartnerComponent implements OnInit, AfterViewInit {
       const file = event.target.files[0];
       const type = file.type;
       this.changeFile(file).then((base64: string): any => {
-        const arr = base64.split(",", 2)
+        const arr = base64.split(',', 2);
         partner.contrat.photo = arr[1];
         partner.contrat.contentType = arr[0] ;
       });
@@ -104,12 +105,13 @@ export class ListPartnerComponent implements OnInit, AfterViewInit {
   }
 
   save(partner: Partner) {
-    if(partner.id)
+    if (partner.id) {
       this.partnerService.update(partner).subscribe(
         client => console.log(client),
         error => console.log(error)
       );
-    else
+    }
+    else {
       this.partnerService.create(partner).subscribe(
         clientCreated => {
           this.dataSource.deleteRow(partner),
@@ -117,23 +119,26 @@ export class ListPartnerComponent implements OnInit, AfterViewInit {
         },
         error => console.log(error)
       );
-    //this.loadClientPage();
+    }
+    // this.loadClientPage();
   }
 
   delete(partner: Partner) {
-    if(partner.id == undefined)
+    if (partner.id == undefined) {
       this.dataSource.deleteRow(partner);
-    else
+    }
+    else {
       this.partnerService.delete(partner.id).subscribe(
         res =>     this.dataSource.deleteRow(partner),
         error => console.log(error)
       );
+    }
   }
 
   deleteModal(partner: Partner) {
-    const modalDialog = this.dialogService.open(ModalComponent,{
+    const modalDialog = this.dialogService.open(ModalComponent, {
       context: {
-        description: 'Etes vous sure de vouloir supprimer le partner ' +partner.nom ,
+        description: 'Etes vous sure de vouloir supprimer le partner ' + partner.nom ,
         title: 'Suppression Partenaire',
         actionButtonText: 'Supprimer',
         closeButtonText: 'Annuler'
@@ -147,7 +152,7 @@ export class ListPartnerComponent implements OnInit, AfterViewInit {
   saveModal(partner: Partner) {
 
     const modalDialog = this.dialogService.open(ModalComponent, {context: {
-        description: 'Etes vous sure de vouloir modifier le partner ' +partner.id + '?',
+        description: 'Etes vous sure de vouloir modifier le partner ' + partner.id + '?',
         title: 'Modification partenaire',
         actionButtonText: 'Modifier',
         closeButtonText: 'Annuler'
@@ -163,7 +168,7 @@ export class ListPartnerComponent implements OnInit, AfterViewInit {
 
   ajouter() {
     console.log('ajouter');
-    let partner = new Partner();
+    const partner = new Partner();
     partner.logo = new Photo();
     partner.contrat = new Photo();
     partner.compte = new Compte();

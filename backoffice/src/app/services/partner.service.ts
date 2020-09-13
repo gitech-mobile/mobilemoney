@@ -14,7 +14,6 @@ type EntityArrayResponseType = HttpResponse<Partner[]>;
 })
 export class PartnerService {
   private resourceUrl = environment.baseUrl + '/donne/partner/';
-
   constructor(protected http: HttpClient, private loaderService: LoaderService) { }
 
   create(partner: Partner): Observable<EntityResponseType> {
@@ -36,11 +35,12 @@ export class PartnerService {
   query(req?: any): Observable<EntityArrayResponseType> {
     const options = createRequestOption(req);
     let path = this.resourceUrl;
-    if(options.has('nom') || options.has('etatPartner'))
-      path+='/search';
+    if (options.has('nom') || options.has('etatPartner')) {
+      path += '/search';
+    }
 
     return this.http
-      .get<Partner[]>(`${path}` , {params : options, observe: 'response'})
+      .get<Partner[]>(`${path}` , {params : options, observe: 'response'});
   }
 
   delete(id: number): Observable<HttpResponse<any>> {

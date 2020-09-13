@@ -1,0 +1,24 @@
+package freelance.paiement.donne.config;
+
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.reactive.function.client.WebClient;
+
+@Configuration
+public class WebClientConfig {
+    @Bean
+    @LoadBalanced
+    WebClient.Builder loadBalancedWebClientBuilder(ReactiveClientRegistrationRepository clientRegistrations,
+                                                   ServerOAuth2AuthorizedClientRepository authorizedClients) {
+        ServerOAuth2AuthorizedClientExchangeFilterFunction oauth =
+                new ServerOAuth2AuthorizedClientExchangeFilterFunction(clientRegistrations, authorizedClients);
+        // (optional) explicitly opt into using the oauth2Login to provide an access token implicitly
+        // oauth.setDefaultOAuth2AuthorizedClient(true);
+        // (optional) set a default ClientRegistration.registrationId
+        // oauth.setDefaultClientRegistrationId("client-registration-id");
+        oauth.setDefaultClientRegistrationId("keycloak");
+        return WebClient.builder()
+                .filter(oauth);
+    }
+}

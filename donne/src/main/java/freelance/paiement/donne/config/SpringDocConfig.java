@@ -21,10 +21,12 @@ public class SpringDocConfig {
         OAuthFlow flow = new OAuthFlow();
 
         flow.setAuthorizationUrl(auth_uri + "/protocol/openid-connect/auth");
+        flow.setRefreshUrl(auth_uri + "/protocol/openid-connect/token");
+        flow.tokenUrl(auth_uri + "/protocol/openid-connect/token");
 
         Scopes scopes = new Scopes();
         flow.setScopes(scopes);
-        flows = flows.implicit(flow);
+        flows = flows.authorizationCode(flow);
 
         return new OpenAPI()
                 .components(new Components().addSecuritySchemes("keycloak",

@@ -1,6 +1,7 @@
 package freelance.paiement.donne.controller;
 
 import Enum.EtatPartner;
+import freelance.paiement.donne.exceptions.CustomException;
 import freelance.paiement.donne.models.Partner;
 import freelance.paiement.donne.services.IPartnerService;
 import freelance.paiement.donne.utils.PaginationUtil;
@@ -9,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import reactor.util.annotation.Nullable;
@@ -31,6 +33,7 @@ public class PartnerController {
      * @return ResponseEntity<List<Partner>>
      */
     @GetMapping
+    @PreAuthorize("hasAnyRole('ROLE_PARTNER','ROLE_SUPPORT')")
     ResponseEntity<List<Partner>> all(Pageable pageable){
         Page<Partner> page = partnerService.getAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
@@ -42,6 +45,7 @@ public class PartnerController {
      * @return ResponseEntity<Client>
      */
     @GetMapping(value = "/search")
+    @PreAuthorize ("hasRole('ROLE_SUPPORT')")
     ResponseEntity<List<Partner>> search(
             @Nullable String nom, @Nullable EtatPartner etatPartner,
             @PageableDefault(size = 10) Pageable pageable
@@ -57,10 +61,11 @@ public class PartnerController {
          * @return ResponseEntity<Partner>
          */
     @PutMapping
+    @PreAuthorize ("hasRole('ROLE_SUPPORT')")
     ResponseEntity<Partner> put(
             @RequestBody @Valid
             Partner partner){
-        return ResponseEntity.ok(partnerService.save(partner));
+        return ResponseEntity.ok(partnerService.update(partner));
     }
     /***
      *
@@ -68,13 +73,15 @@ public class PartnerController {
      * @return ResponseEntity<Partner>
      */
     @PostMapping
+    @PreAuthorize ("hasRole('ROLE_SUPPORT')")
     ResponseEntity<Partner> post(
             @RequestBody @Valid
-            Partner partner){
+            Partner partner) throws CustomException {
         return ResponseEntity.ok(partnerService.save(partner));
     }
 
     @DeleteMapping
+    @PreAuthorize ("hasRole('ROLE_SUPERADMIN')")
     ResponseEntity<Boolean> delete(Long id){
         return ResponseEntity.ok(partnerService.deleteClient(id));
     }

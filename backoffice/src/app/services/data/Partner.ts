@@ -6,6 +6,8 @@ import {Compte} from './Compte';
 export class Partner {
   id: number;
   nom: string;
+  identifiant: string;
+  email: string;
   adresse: string;
   logo: Photo;
   etat: EtatPartner;

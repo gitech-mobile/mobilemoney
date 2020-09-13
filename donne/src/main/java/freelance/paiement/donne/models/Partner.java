@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import java.util.List;
 
 @Entity
@@ -16,7 +17,10 @@ public class Partner {
     @GeneratedValue
     private Long id;
     private String nom;
+    private String identifiant;
     private String adresse;
+    @Email
+    private String email;
     @Enumerated
     private EtatPartner etat;
     @JsonIgnore

@@ -18,4 +18,4 @@ spring:
         registration:
           keycloak:
             client-id: ${AUTH_CLIENT_ID:mobilepaiement}
-            #client-secret: ${AUTH_SECRET:3ef10a8f-971d-4a04-b7c5-9a2228a728eb}
+            client-secret: ${AUTH_SECRET:c7c35d1c-1534-4a29-895b-3a4a5eceb199}

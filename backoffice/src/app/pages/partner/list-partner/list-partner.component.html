@@ -21,6 +21,20 @@
       </mat-cell>
     </ng-container>
 
+    <ng-container matColumnDef="identifiant">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Identifiant </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <input nbInput  shape="round"  fullWidth fieldSize="small" [(ngModel)]="element.identifiant" [readOnly]="!selection.isSelected(element)" >
+      </mat-cell>
+    </ng-container>
+
+<ng-container matColumnDef="email">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Email </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <input nbInput  shape="round"  fullWidth fieldSize="small" [(ngModel)]="element.email" [readOnly]="!selection.isSelected(element)" >
+      </mat-cell>
+    </ng-container>
+
 
     <ng-container matColumnDef="adresse">
       <mat-header-cell *matHeaderCellDef mat-sort-header> Adresse </mat-header-cell>
