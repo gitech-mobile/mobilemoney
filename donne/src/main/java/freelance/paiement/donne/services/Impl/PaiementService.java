@@ -6,19 +6,25 @@ import freelance.paiement.donne.exceptions.CustomException;
 import freelance.paiement.donne.exceptions.ResourceNotFoundException;
 import freelance.paiement.donne.models.Client;
 import freelance.paiement.donne.models.Paiement;
+import freelance.paiement.donne.models.Partner;
 import freelance.paiement.donne.models.Produit;
 import freelance.paiement.donne.repositories.PaiementRepository;
 import freelance.paiement.donne.repositories.PartnerRepository;
+import freelance.paiement.donne.security.AuthoritiesConstants;
+import freelance.paiement.donne.security.SecurityUtils;
 import freelance.paiement.donne.services.IClientService;
 import freelance.paiement.donne.services.IPaiementService;
 import freelance.paiement.donne.services.IProduitService;
 import freelance.paiement.donne.specification.PaiementSpecification;
+import freelance.paiement.donne.specification.PartnerSpecification;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.Principal;
 import java.time.*;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAdjusters;
@@ -54,16 +60,13 @@ public class PaiementService implements IPaiementService {
             }
         }
 
-        if(paiement.getPartner().getId() == null)
-            paiement.setPartner(partnerRepository.saveAndFlush(paiement.getPartner()));
+        paiement.setPartner(getPartner());
 
         List<Produit> produitList = paiement.getProduits().stream()
                 .filter(
                         produit -> produit.getId() == null
                 )
-                .map(
-                        produit1 -> produitService.save(produit1)
-                )
+                .map(produitService::save)
                 .collect(Collectors.toList());
 
         paiement.setProduits(produitList);
@@ -73,11 +76,17 @@ public class PaiementService implements IPaiementService {
     }
 
     @Override
+    @Transactional
     public Page<Paiement> getAll(Pageable pageable) {
-        return paiementRepository.findAll(pageable);
+       if(SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.SUPPORT))
+          return paiementRepository.findAll(pageable);
+        else
+            return paiementRepository.findAllByPartner(getPartner(), pageable);
+
     }
 
     @Override
+    @Transactional
     public Page<Paiement> getPaiement(EtatPaiement etatPaiement, Canal canal, Pageable pageable) {
         return paiementRepository.findByEtatAndCanal(etatPaiement,canal, pageable);
     }
@@ -110,38 +119,71 @@ public class PaiementService implements IPaiementService {
     public Map<Month, Float> getStatYear(Long year, int etatPaiement) {
         TreeMap<Month, Float> map = new TreeMap<>();
 
-        Arrays.stream(Month.values()).forEach(
+        if (!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.SUPPORT))
+            Arrays.stream(Month.values()).forEach(
                 month -> {
                     map.put(month, paiementRepository.getSommeMois(year,month.getValue(),etatPaiement));
                 });
+        else {
+            Partner partner = getPartner();
+            Arrays.stream(Month.values()).forEach(
+                    month -> {
+                        map.put(month, paiementRepository.getSommeMoisPartner(year,month.getValue(),etatPaiement, partner.getId()));
+                    });
+        }
         return map;
     }
 
     @Override
     public Map<LocalDate, Float> getStatMois(LocalDate date, int etatPaiement) {
         TreeMap<LocalDate, Float> map = new TreeMap<>();
-        date.datesUntil(date.with(TemporalAdjusters.lastDayOfMonth())).forEach(
+        if(SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.SUPPORT))
+            date.datesUntil(date.with(TemporalAdjusters.lastDayOfMonth())).forEach(
                 localDate -> map.put(localDate,paiementRepository.getSommeJour(localDate.getDayOfMonth(),etatPaiement))
-        );
+            );
+        else {
+            Partner partner = getPartner();
 
+            date.datesUntil(date.with(TemporalAdjusters.lastDayOfMonth())).forEach(
+                    localDate -> map.put(localDate, paiementRepository.getSommeJourPartner(localDate.getDayOfMonth(), etatPaiement,
+                            partner.getId()
+                    ))
+            );
+        }
         return map;
     }
 
     @Override
     public Map<DayOfWeek, Float> getStatWeek(Date date, int etatPaiement) {
         TreeMap<DayOfWeek, Float> map = new TreeMap<>();
-        System.out.println(date);
         Date dateLoop;
-        for (int i = 1;i <= 7;i++){
-            dateLoop = Date.from(date.toInstant().minus(7-i, ChronoUnit.DAYS));
-            System.out.println(dateLoop);
-            map.put(
-                    dateLoop.toInstant().atZone(ZoneId.systemDefault()).getDayOfWeek(),
-                    paiementRepository.getSommeJour((LocalDate.from(dateLoop.toInstant().atZone(ZoneId.systemDefault()))).getDayOfMonth(),etatPaiement)
-            );
-            System.out.println(map);
+        if(SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.SUPPORT))
+            for (int i = 1; i <= 7; i++) {
+                dateLoop = Date.from(date.toInstant().minus(7 - i, ChronoUnit.DAYS));
+                map.put(
+                        dateLoop.toInstant().atZone(ZoneId.systemDefault()).getDayOfWeek(),
+                        paiementRepository.getSommeJour((LocalDate.from(dateLoop.toInstant().atZone(ZoneId.systemDefault()))).getDayOfMonth(), etatPaiement)
+                );
+            }
+        else
+        {
+            Partner partner = getPartner();
+
+            for (int i = 1; i <= 7; i++) {
+                dateLoop = Date.from(date.toInstant().minus(7 - i, ChronoUnit.DAYS));
+                map.put(
+                        dateLoop.toInstant().atZone(ZoneId.systemDefault()).getDayOfWeek(),
+                        paiementRepository.getSommeJourPartner((LocalDate.from(dateLoop.toInstant().atZone(ZoneId.systemDefault()))).getDayOfMonth(), etatPaiement, partner.getId())
+                );
+            }
         }
+
         return map;
+    }
+
+    private Partner getPartner() {
+        return partnerRepository.findOne(PartnerSpecification.getPartnerByIdentifiant(SecurityUtils.getCurrentUserLogin()))
+                .orElseThrow(() -> new ResourceNotFoundException("Aucun partenaire trouve"));
     }
 
     @Override
@@ -158,6 +200,10 @@ public class PaiementService implements IPaiementService {
          if(dateSup !=null)
             specification = PaiementSpecification.addSpecification(specification,PaiementSpecification.getPaiementByDateSup(dateSup));
 
+        if(!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.SUPPORT)) {
+            Partner partner = getPartner();
+            specification = PaiementSpecification.addSpecification(specification, PaiementSpecification.getPaiementByPartnerId(partner.getId()));
+        }
          return paiementRepository.findAll(specification,pageable);
     }
 

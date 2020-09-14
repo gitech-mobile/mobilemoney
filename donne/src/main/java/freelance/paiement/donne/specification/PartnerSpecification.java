@@ -10,6 +10,14 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 public class PartnerSpecification {
+    public static Specification<Partner> getPartnerByIdentifiant(String identifiant){
+        return new Specification<Partner>() {
+            @Override
+            public Predicate toPredicate(Root<Partner> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+                return criteriaBuilder.like(root.get("identifiant"), identifiant);
+            }
+        };
+    }
     public static Specification<Partner> getPartnerNomLike(String nom){
         return new Specification<Partner>() {
             @Override

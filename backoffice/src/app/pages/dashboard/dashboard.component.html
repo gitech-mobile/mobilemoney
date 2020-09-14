@@ -1,4 +1,4 @@
-<div *ngIf="stat[2] && stat[1] && stat[0] ">
+<div class="animated fadeInup" *ngIf="stat[2] && stat[1] && stat[0] ">
   <app-chart-header (dateChange)="setDate($event)" (periodChange)="setPeriod($event)" ></app-chart-header>
 <app-transaction-chart [periode]="periode" [label]="label" [stat]="stat" ></app-transaction-chart>
 </div>

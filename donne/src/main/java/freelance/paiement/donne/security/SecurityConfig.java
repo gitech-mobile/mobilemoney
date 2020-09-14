@@ -1,4 +1,4 @@
-package freelance.paiement.donne.config;
+package freelance.paiement.donne.security;
 
 import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties;
 import org.springframework.context.annotation.Bean;

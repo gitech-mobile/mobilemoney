@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import {environment} from '../../environments/environment';
 import {HttpClient, HttpResponse} from '@angular/common/http';
-import {LoaderService} from './loader.service';
 import {Observable} from 'rxjs';
 import {Partner} from './data/Partner';
 import {createRequestOption} from './request-util';
@@ -14,15 +13,13 @@ type EntityArrayResponseType = HttpResponse<Partner[]>;
 })
 export class PartnerService {
   private resourceUrl = environment.baseUrl + '/donne/partner/';
-  constructor(protected http: HttpClient, private loaderService: LoaderService) { }
+  constructor(protected http: HttpClient) { }
 
   create(partner: Partner): Observable<EntityResponseType> {
-    this.loaderService.startLoading();
     return this.http
       .post<Partner>(this.resourceUrl, partner, {observe : 'response'});
   }
   update(partner: Partner): Observable<EntityResponseType> {
-    this.loaderService.startLoading();
     console.log(partner);
     return this.http
       .put<Partner>(this.resourceUrl, partner, {observe : 'response'});
@@ -43,10 +40,10 @@ export class PartnerService {
       .get<Partner[]>(`${path}` , {params : options, observe: 'response'});
   }
 
-  delete(id: number): Observable<HttpResponse<any>> {
-    this.loaderService.startLoading();
+  delete(req?: any): Observable<HttpResponse<any>> {
+    const options = createRequestOption(req);
     return this.http
-      .delete<any>(`${this.resourceUrl}${id}`, { observe: 'response' });
+      .delete<any>(`${this.resourceUrl}`, { params: options, observe: 'response' });
   }
 
 }

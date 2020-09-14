@@ -17,15 +17,13 @@ export class TransactionChartComponent implements OnDestroy, OnChanges {
 
   themeSubscription: any;
   @Input() label: [];
-  @Input() stat : any ;
+  @Input() stat: any ;
   @Input() periode: string;
 
   constructor(private theme: NbThemeService) {
   }
 
-  ngOnChanges() {
-    console.log(this.stat);
-    console.log(this.label);
+  ngOnChanges(): void {
     this.themeSubscription = this.theme.getJsTheme().subscribe(config => {
 
       const colors: any = config.variables;
@@ -90,15 +88,15 @@ export class TransactionChartComponent implements OnDestroy, OnChanges {
         },
       };
 
-    this.pieData = {
+      this.pieData = {
       labels: ['Transaction Initier', 'Transaction Valide', 'Transaction Annuler'],
       datasets: [{
-        data: [this.somme(this.stat[0]), this.somme(this.stat[1]),this.somme(this.stat[2])],
+        data: [this.somme(this.stat[0]), this.somme(this.stat[1]), this.somme(this.stat[2])],
         backgroundColor: [colors.primaryLight,  colors.successLight, colors.danger],
       }],
     };
 
-    this.pieOptions = {
+      this.pieOptions = {
       maintainAspectRatio: false,
       responsive: true,
       scales: {
@@ -126,7 +124,7 @@ export class TransactionChartComponent implements OnDestroy, OnChanges {
     this.themeSubscription.unsubscribe();
   }
 
-  somme(tab: [number]){
+  somme(tab: [number]): number{
     let s = 0;
     tab.forEach(
       value => s = s + value

@@ -13,16 +13,12 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import reactor.util.annotation.Nullable;
 
 import javax.validation.Valid;
-import java.security.Principal;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.Month;
@@ -64,7 +60,7 @@ public class PaiementController {
      */
    // @Operation(summary = "Récupère les paiements par canal et etat")
     @GetMapping("/scheduler")
-    @PreAuthorize("hasRole('ROLE_uma_authorization')")
+    @PreAuthorize("hasRole('ROLE_scheduler')")
     public ResponseEntity<List<Paiement>> getpaiement(
             Canal canal,
             EtatPaiement etatPaiement,
@@ -174,7 +170,7 @@ public class PaiementController {
      */
     //@Operation(summary = "Permet de faire un update sur un paiement")
     @PutMapping
-    @PreAuthorize ("hasRole('ROLE_SUPPORT') or hasRole('ROLE_uma_authorization')")
+    @PreAuthorize ("hasRole('ROLE_SUPPORT') or hasRole('ROLE_scheduler')")
     public ResponseEntity<Paiement> updatePaiement(
             @RequestBody @Valid
                     Paiement paiement) {
@@ -191,10 +187,11 @@ public class PaiementController {
     @PreAuthorize ("hasAnyRole('ROLE_PARTNER')")
     public ResponseEntity<Paiement> add(
             @RequestBody @Valid
-            Paiement paiement
-            ) throws CustomException {
+            Paiement paiement) throws CustomException {
         paiement.setEtat(EtatPaiement.ATTENTE);
-        return ResponseEntity.ok(paiementService.save(paiement));
+        paiement = paiementService.save(paiement);
+        paiement.setPartner(null);
+        return ResponseEntity.ok(paiement);
     }
 
 }

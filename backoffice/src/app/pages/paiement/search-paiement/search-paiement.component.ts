@@ -1,4 +1,4 @@
-import {Component,EventEmitter, Output} from '@angular/core';
+import {Component, EventEmitter, Output} from '@angular/core';
 import {EtatPaiement} from '../../../services/Enum/EtatPaiement';
 import {Canal} from '../../../services/Enum/Canal';
 import {Moment} from 'moment';
@@ -8,7 +8,7 @@ import {Moment} from 'moment';
   templateUrl: './search-paiement.component.html'
 })
 export class SearchPaiementComponent {
-  classToggled: boolean = true;
+  classToggled = true;
   @Output() paiementChange = new EventEmitter();
   EtatPaiementList = Object.keys(EtatPaiement);
   CanalList        = Object.keys(Canal);
@@ -18,7 +18,7 @@ export class SearchPaiementComponent {
   canal: Canal;
   etat: EtatPaiement;
 
-  toggleField() {
+  toggleField(): void {
     this.classToggled = !this.classToggled;
     this.dateInf      = null;
     this.reference    = null;
@@ -28,11 +28,11 @@ export class SearchPaiementComponent {
     this.search();
   }
 
-  search() {
+  search(): void {
     this.paiementChange.emit({
       reference: this.reference,
-      dateInf: this.dateInf?this.dateInf.format('YYYY-MM-DD'):null,
-      dateSup: this.dateSup?this.dateSup.format('YYYY-MM-DD'):null,
+      dateInf: this.dateInf ? this.dateInf.format('YYYY-MM-DD') : null,
+      dateSup: this.dateSup ? this.dateSup.format('YYYY-MM-DD') : null,
       canal: this.canal,
       etat: this.etat
     });

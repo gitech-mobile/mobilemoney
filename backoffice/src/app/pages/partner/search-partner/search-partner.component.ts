@@ -1,27 +1,27 @@
   import {Component, EventEmitter, Output} from '@angular/core';
   import {EtatPartner} from '../../../services/Enum/EtatPartner';
 
-@Component({
+  @Component({
   selector: 'app-search-partner',
   templateUrl: './search-partner.component.html'
 })
 export class SearchPartnerComponent {
-  classToggled: boolean = true;
+  classToggled = true;
   @Output() partnerChange = new EventEmitter();
   EtatPartnerList = Object.keys(EtatPartner);
   etatPartner: EtatPartner;
   nom: string;
-  toggleField() {
+  toggleField(): void {
     this.classToggled = !this.classToggled;
     this.nom          = null;
     this.etatPartner  = null;
     this.search();
   }
 
-   search() {
+   search(): void {
     this.partnerChange.emit({
-      nom:this.nom,
-      etatPartner:this.etatPartner
+      nom: this.nom,
+      etatPartner: this.etatPartner
     });
   }
 }

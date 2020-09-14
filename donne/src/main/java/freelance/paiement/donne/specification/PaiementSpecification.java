@@ -38,6 +38,14 @@ public class PaiementSpecification {
             }
         };
     }
+    public static Specification<Paiement> getPaiementByPartnerId(Long partner_id){
+        return new Specification<Paiement>() {
+            @Override
+            public Predicate toPredicate(Root<Paiement> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+                return criteriaBuilder.equal(root.get("partner_id"), partner_id);
+            }
+        };
+    }
     public static Specification<Paiement> getPaiementByDateInf(Date date){
         return new Specification<Paiement>() {
             @Override

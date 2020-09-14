@@ -1,5 +1,4 @@
 import {Moment} from 'moment';
-import {Paiement} from './Paiement';
 
 export class Client {
   id: number;
@@ -12,5 +11,4 @@ export class Client {
   pays: string;
   prenom: string;
   region: string;
-  //paiements: Array<Paiement>;
 }

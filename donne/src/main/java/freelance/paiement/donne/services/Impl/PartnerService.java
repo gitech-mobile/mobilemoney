@@ -2,8 +2,11 @@ package freelance.paiement.donne.services.Impl;
 
 import Enum.EtatPartner;
 import freelance.paiement.donne.exceptions.CustomException;
+import freelance.paiement.donne.exceptions.ResourceNotFoundException;
 import freelance.paiement.donne.models.Partner;
 import freelance.paiement.donne.repositories.PartnerRepository;
+import freelance.paiement.donne.security.AuthoritiesConstants;
+import freelance.paiement.donne.security.SecurityUtils;
 import freelance.paiement.donne.services.IPartnerService;
 import freelance.paiement.donne.specification.PartnerSpecification;
 import org.keycloak.admin.client.Keycloak;
@@ -53,7 +56,7 @@ public class PartnerService implements IPartnerService {
         return partner;
     }
 
-    private void addUser(Partner partner) throws CustomException {
+    private void addUser(Partner partner) {
         UserRepresentation user = new UserRepresentation();
         user.setEnabled(true);
         user.setEmail(partner.getEmail());
@@ -87,7 +90,10 @@ public class PartnerService implements IPartnerService {
 
     @Override
     public Page<Partner> getAll(Pageable pageable) {
-        return partnerRepository.findAll(pageable);
+        if(!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.SUPPORT))
+            return partnerRepository.findAll(PartnerSpecification.getPartnerByIdentifiant(getPartner().getIdentifiant()), pageable);
+        else
+            return partnerRepository.findAll(pageable);
     }
 
     @Override
@@ -103,10 +109,16 @@ public class PartnerService implements IPartnerService {
         if(etatPartner !=null)
             specification = PartnerSpecification.addSpecification(specification, PartnerSpecification.getPartnerEtat(etatPartner));
 
+        if(!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.SUPPORT))
+            specification = PartnerSpecification.addSpecification(specification, PartnerSpecification.getPartnerByIdentifiant(getPartner().getIdentifiant()));
+
         return partnerRepository.findAll(specification,pageable);
     }
 
-
+    private Partner getPartner() {
+        return partnerRepository.findOne(PartnerSpecification.getPartnerByIdentifiant(SecurityUtils.getCurrentUserLogin()))
+                .orElseThrow(() -> new ResourceNotFoundException("Aucun partenaire trouve"));
+    }
     @Override
     public Boolean deleteClient(Long id) {
         partnerRepository.deleteById(id);

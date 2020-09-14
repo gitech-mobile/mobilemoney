@@ -1,4 +1,4 @@
-package freelance.paiement.donne.config;
+package freelance.paiement.donne.security;
 
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.oauth2.jwt.MappedJwtClaimSetConverter;

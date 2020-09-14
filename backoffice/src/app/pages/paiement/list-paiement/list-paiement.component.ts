@@ -11,7 +11,7 @@ import {NbDialogService} from '@nebular/theme';
 import {SelectionModel} from '@angular/cdk/collections';
 import {EtatPaiement} from '../../../services/Enum/EtatPaiement';
 import {Canal} from '../../../services/Enum/Canal';
-import {Client} from '../../../services/data/Client';
+import {AlertService} from "../../../services/alert.service";
 
 @Component({
   selector: 'app-list-paiement',
@@ -19,19 +19,19 @@ import {Client} from '../../../services/data/Client';
 })
 export class ListPaiementComponent implements AfterViewInit, OnInit  {
   dataSource: PaiementDataSource;
-  selection = new SelectionModel<Paiement>(false,null);
+  selection = new SelectionModel<Paiement>(false, null);
 
   EtatPaiementList = Object.keys(EtatPaiement);
   CanalList        = Object.keys(Canal);
   paiements: Paiement[];
-  displayedColumns: string[] = ['action', 'montant','reference', 'client', 'partner' , 'dateupdate','canal', 'etat'];
-  constructor(protected paiementService: PaiementService, private dialogService: NbDialogService) {
+  displayedColumns: string[] = ['action', 'montant', 'reference', 'client', 'partner' , 'dateupdate', 'canal', 'etat'];
+  constructor(protected paiementService: PaiementService, private dialogService: NbDialogService, private alertService: AlertService) {
   }
 
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
-  classToggled: boolean = true;
+  classToggled = true;
 
   ngOnInit(): void {
     this.dataSource = new PaiementDataSource(this.paiementService);
@@ -39,7 +39,7 @@ export class ListPaiementComponent implements AfterViewInit, OnInit  {
 
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     this.paginator.page
       .pipe(
         tap(() => this.loadPaiementPage())
@@ -47,7 +47,7 @@ export class ListPaiementComponent implements AfterViewInit, OnInit  {
       .subscribe();
   }
 
-  loadPaiementPage() {
+  loadPaiementPage(): void {
     this.dataSource.loadPaiement(
       this.sorted(),
       this.paginator.pageIndex,
@@ -55,7 +55,7 @@ export class ListPaiementComponent implements AfterViewInit, OnInit  {
     );
   }
 
-  sorted() {
+  sorted(): any {
     const result = [this.sort.active + ',' + (this.sort.direction)];
     if (this.sort.active !== 'id') {
       result.push('id');
@@ -63,42 +63,44 @@ export class ListPaiementComponent implements AfterViewInit, OnInit  {
     return result;
   }
 
-  transition() {
+  transition(): void {
     this.loadPaiementPage();
   }
 
-  save(paiement: Paiement) {
-    console.log(paiement);
-    if(paiement.id)
+  save(paiement: Paiement): void {
+    if (paiement.id) {
       this.paiementService.update(paiement).subscribe(
-        client => console.log(client),
-        error => console.log(error)
+        value => this.alertService.success('paiement mise a jour ' + paiement.reference )
       );
-    else
+    }
+    else {
       this.paiementService.create(paiement).subscribe(
         clientCreated => {
-          this.dataSource.deleteRow(paiement),
-            this.dataSource.addRowClient(clientCreated.body);
-        },
-        error => console.log(error)
-      );
-    //this.loadClientPage();
+          this.dataSource.deleteRow(paiement);
+          this.dataSource.addRowClient(clientCreated.body);
+          this.alertService.success('paiement mise a jour ' + paiement.reference );
+        });
+    }
   }
 
-  delete(paiement: Paiement) {
-    if(paiement.id == undefined)
+  delete(paiement: Paiement): void{
+    if (paiement.id === undefined) {
       this.dataSource.deleteRow(paiement);
-    else
+    }
+    else {
       this.paiementService.delete(paiement.id).subscribe(
-        res =>     this.dataSource.deleteRow(paiement),
-        error => console.log(error)
+        res => {
+          this.dataSource.deleteRow(paiement);
+          this.alertService.success('paiement supprime ' + paiement.reference );
+        }
       );
+    }
   }
 
-  deleteModal(paiement: Paiement) {
-    const modalDialog = this.dialogService.open(ModalComponent,{
+  deleteModal(paiement: Paiement): void {
+    const modalDialog = this.dialogService.open(ModalComponent, {
       context: {
-        description: 'Etes vous sure de vouloir supprimer le paiement ' +paiement.montant + 'du partenaire  ' + paiement.partner.nom,
+        description: 'Etes vous sure de vouloir supprimer le paiement ' + paiement.montant + 'du partenaire  ' + paiement.partner.nom,
         title: 'Suppression client',
         actionButtonText: 'Supprimer',
         closeButtonText: 'Annuler'
@@ -109,10 +111,10 @@ export class ListPaiementComponent implements AfterViewInit, OnInit  {
     );
   }
 
-  saveModal(paiement: Paiement) {
+  saveModal(paiement: Paiement): void {
 
     const modalDialog = this.dialogService.open(ModalComponent, {context: {
-        description: 'Etes vous sure de vouloir modifier le paiement ' +paiement.id + '?',
+        description: 'Etes vous sure de vouloir modifier le paiement ' + paiement.id + '?',
         title: 'Modification paiement',
         actionButtonText: 'Modifier',
         closeButtonText: 'Annuler'
@@ -126,11 +128,11 @@ export class ListPaiementComponent implements AfterViewInit, OnInit  {
     this.selection.deselect(paiement);
   }
 
-  toggleField() {
-    this.classToggled=!this.classToggled;
+  toggleField(): void{
+    this.classToggled = !this.classToggled;
   }
 
-  setSearch($event: any) {
+  setSearch($event: any): void {
     this.dataSource.searchChange($event);
     this.transition();
   }

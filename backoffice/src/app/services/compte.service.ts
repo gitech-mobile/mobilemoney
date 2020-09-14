@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import {Compte} from './data/Compte';
 import {HttpClient, HttpResponse} from '@angular/common/http';
 import {environment} from '../../environments/environment';
-import {LoaderService} from './loader.service';
 import {Observable} from 'rxjs';
 import * as moment from 'moment';
 
@@ -16,15 +15,13 @@ type EntityArrayResponseType = HttpResponse<Compte[]>;
 export class CompteService {
   private resourceUrl = environment.baseUrl + '/donne/compte/';
 
-  constructor(protected http: HttpClient, private loaderService: LoaderService) { }
+  constructor(protected http: HttpClient) { }
 
   create(compte: Compte): Observable<EntityResponseType> {
-    this.loaderService.startLoading();
     return this.http
       .post<Compte>(this.resourceUrl, compte, {observe : 'response'});
   }
   update(compte: Compte): Observable<EntityResponseType> {
-    this.loaderService.startLoading();
     return this.http
       .put<Compte>(this.resourceUrl, compte, {observe : 'response'});
   }

@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {Client} from '../../services/data/Client';
 import {ModalComponent} from '../modal/modal.component';
 import {NbDialogService} from '@nebular/theme';
-import {KeycloakService} from "keycloak-angular";
+import {KeycloakService} from 'keycloak-angular';
 
 @Component({
   selector: 'app-home',

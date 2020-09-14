@@ -11,6 +11,7 @@ import {NbDialogService} from '@nebular/theme';
 import {EtatPartner} from '../../../services/Enum/EtatPartner';
 import {Photo} from '../../../services/data/Photo';
 import {Compte} from '../../../services/data/Compte';
+import {AlertService} from "../../../services/alert.service";
 
 @Component({
   selector: 'app-list-partner',
@@ -22,7 +23,7 @@ export class ListPartnerComponent implements OnInit, AfterViewInit {
   selection = new SelectionModel<Partner>(false, null);
   EtatPartnerList = Object.keys(EtatPartner);
   displayedColumns: string[] = ['action', 'logo', 'nom', 'identifiant', 'email', 'adresse', 'etat', 'solde', 'contrat'];
-  constructor(protected partnerService: PartnerService, private dialogService: NbDialogService) {
+  constructor(protected partnerService: PartnerService, private dialogService: NbDialogService, private alertService: AlertService) {
   }
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -34,7 +35,7 @@ export class ListPartnerComponent implements OnInit, AfterViewInit {
   }
 
 
-  changeFile(file) {
+  changeFile(file): any {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
@@ -43,7 +44,7 @@ export class ListPartnerComponent implements OnInit, AfterViewInit {
     });
   }
 
-  uploadFile(event, partner: Partner) {
+  uploadFile(event, partner: Partner): void {
     if (partner.logo == null) {
       partner.logo = new Photo();
     }
@@ -59,7 +60,7 @@ export class ListPartnerComponent implements OnInit, AfterViewInit {
     }
   }
 
-  uploadContrat(event, partner: Partner) {
+  uploadContrat(event, partner: Partner): void {
     console.log('change');
     if (partner.contrat == null){
       partner.contrat = new Photo();
@@ -76,7 +77,7 @@ export class ListPartnerComponent implements OnInit, AfterViewInit {
     }
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     this.paginator.page
       .pipe(
         tap(() => this.loadPartnerPage())
@@ -84,7 +85,7 @@ export class ListPartnerComponent implements OnInit, AfterViewInit {
       .subscribe();
   }
 
-  loadPartnerPage() {
+  loadPartnerPage(): void {
     this.dataSource.loadPartner(
       this.sorted(),
       this.paginator.pageIndex,
@@ -92,7 +93,7 @@ export class ListPartnerComponent implements OnInit, AfterViewInit {
     );
   }
 
-  sorted() {
+  sorted(): any {
     const result = [this.sort.active + ',' + (this.sort.direction)];
     if (this.sort.active !== 'id') {
       result.push('id');
@@ -100,42 +101,42 @@ export class ListPartnerComponent implements OnInit, AfterViewInit {
     return result;
   }
 
-  transition() {
+  transition(): void {
     this.loadPartnerPage();
   }
 
-  save(partner: Partner) {
+  save(partner: Partner): void {
     if (partner.id) {
       this.partnerService.update(partner).subscribe(
-        client => console.log(client),
-        error => console.log(error)
+        value => this.alertService.success('partenaire modifie : ' + value.body.nom)
       );
     }
     else {
       this.partnerService.create(partner).subscribe(
         clientCreated => {
-          this.dataSource.deleteRow(partner),
-            this.dataSource.addRowClient(clientCreated.body);
-        },
-        error => console.log(error)
+          this.dataSource.deleteRow(partner);
+          this.dataSource.addRowClient(clientCreated.body);
+          this.alertService.success('partenaire cree ' + clientCreated.body.nom);
+        }
       );
     }
-    // this.loadClientPage();
   }
 
-  delete(partner: Partner) {
-    if (partner.id == undefined) {
+  delete(partner: Partner): void {
+    if (partner.id === undefined) {
       this.dataSource.deleteRow(partner);
     }
     else {
-      this.partnerService.delete(partner.id).subscribe(
-        res =>     this.dataSource.deleteRow(partner),
-        error => console.log(error)
+      this.partnerService.delete({ id: partner.id }).subscribe(
+        res => {
+          this.dataSource.deleteRow(partner);
+          this.alertService.success('partenaire supprimer : ' + partner.nom);
+        }
       );
     }
   }
 
-  deleteModal(partner: Partner) {
+  deleteModal(partner: Partner): void {
     const modalDialog = this.dialogService.open(ModalComponent, {
       context: {
         description: 'Etes vous sure de vouloir supprimer le partner ' + partner.nom ,
@@ -149,7 +150,7 @@ export class ListPartnerComponent implements OnInit, AfterViewInit {
     );
   }
 
-  saveModal(partner: Partner) {
+  saveModal(partner: Partner): void {
 
     const modalDialog = this.dialogService.open(ModalComponent, {context: {
         description: 'Etes vous sure de vouloir modifier le partner ' + partner.id + '?',
@@ -166,7 +167,7 @@ export class ListPartnerComponent implements OnInit, AfterViewInit {
     this.selection.deselect(partner);
   }
 
-  ajouter() {
+  ajouter(): void {
     console.log('ajouter');
     const partner = new Partner();
     partner.logo = new Photo();
@@ -175,7 +176,7 @@ export class ListPartnerComponent implements OnInit, AfterViewInit {
     this.dataSource.addRowClient(partner);
   }
 
-  setSearch($event: any) {
+  setSearch($event: any): void {
     this.dataSource.searchChange($event);
     this.transition();
   }

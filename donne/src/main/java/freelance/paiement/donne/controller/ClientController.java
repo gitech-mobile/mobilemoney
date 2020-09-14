@@ -78,7 +78,7 @@ public class ClientController {
      * @return ResponseEntity<Client>
      */
     @PostMapping
-    @PreAuthorize ("hasAnyRole('ROLE_PARTNER','ROLE_SUPPORT')")
+    @PreAuthorize ("hasAnyRole('ROLE_SUPPORT')")
     ResponseEntity<Client> post(
             @RequestBody @Valid
             Client client
@@ -93,7 +93,7 @@ public class ClientController {
      */
     @DeleteMapping
     @PreAuthorize ("hasAnyRole('ROLE_ADMIN')")
-    ResponseEntity<Boolean> delete(Long id){
+    ResponseEntity<Boolean> delete(@RequestParam Long id){
         return ResponseEntity.ok(clientService.deleteClient(id));
     }
 }

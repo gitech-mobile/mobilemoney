@@ -82,7 +82,7 @@ public class PartnerController {
 
     @DeleteMapping
     @PreAuthorize ("hasRole('ROLE_SUPERADMIN')")
-    ResponseEntity<Boolean> delete(Long id){
+    ResponseEntity<Boolean> delete(@RequestParam Long id){
         return ResponseEntity.ok(partnerService.deleteClient(id));
     }
 }

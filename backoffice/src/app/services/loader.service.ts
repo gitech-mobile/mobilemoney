@@ -5,24 +5,16 @@ import {Subject} from 'rxjs';
   providedIn: 'root'
 })
 export class LoaderService {
-
-  private _loading  = false;
+  private loading  = false;
   loadingStatus     = new Subject();
 
-  get loading():boolean {
-    return this._loading;
-  }
-
-  set loading(value) {
-    this._loading = value;
-    this.loadingStatus.next(value);
-  }
-
-  startLoading() {
+  startLoading(): void {
     this.loading = true;
+    this.loadingStatus.next( true);
   }
 
-  stopLoading() {
+  stopLoading(): void {
     this.loading = false;
+    this.loadingStatus.next(false);
   }
 }
