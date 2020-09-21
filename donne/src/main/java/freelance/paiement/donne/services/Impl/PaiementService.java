@@ -20,11 +20,9 @@ import freelance.paiement.donne.specification.PartnerSpecification;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.security.Principal;
 import java.time.*;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAdjusters;
@@ -119,7 +117,7 @@ public class PaiementService implements IPaiementService {
     public Map<Month, Float> getStatYear(Long year, int etatPaiement) {
         TreeMap<Month, Float> map = new TreeMap<>();
 
-        if (!SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.SUPPORT))
+        if (SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.SUPPORT))
             Arrays.stream(Month.values()).forEach(
                 month -> {
                     map.put(month, paiementRepository.getSommeMois(year,month.getValue(),etatPaiement));
