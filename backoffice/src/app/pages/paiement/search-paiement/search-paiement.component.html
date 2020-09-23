@@ -8,28 +8,28 @@
   <nb-card-body [class.toggled]=classToggled class="animated fadeInup">
     <div class="row" >
 
-      <nb-form-field class="col-sm">
+      <nb-form-field class="col-lg">
         <input type="text" [(ngModel)]="reference" nbInput fieldSize="small" fullWidth shape="round" placeholder="Reference">
       </nb-form-field>
 
-      <nb-form-field class="col-sm">
+      <nb-form-field class="col-lg">
       <input nbInput fieldSize="small" [(ngModel)]="dateInf"  shape="round" fullWidth name="dateInf" [nbDatepicker]="datepicker" placeholder="date debut">
       <nb-datepicker #datepicker ></nb-datepicker>
       </nb-form-field>
 
-      <nb-form-field class="col-sm">
+      <nb-form-field class="col-lg">
       <input nbInput fieldSize="small" [(ngModel)]="dateSup" shape="round" fullWidth name="dateSup" [nbDatepicker]="datepickerSup" placeholder="date fin">
       <nb-datepicker #datepickerSup ></nb-datepicker>
       </nb-form-field>
 
-      <nb-form-field class="col-sm">
+      <nb-form-field class="col-lg">
       <nb-select  placeholder="Canal" [(ngModel)]="canal"   shape="round" fullWidth size="small">
         <nb-option  *ngFor="let canal of CanalList" [value]="canal">{{canal}}</nb-option>
       </nb-select>
       </nb-form-field>
 
-      <nb-form-field class="col-sm">
-      <nb-select class="col-sm" [(ngModel)]="etat"  placeholder="Etat"  shape="round" fullWidth size="small"  >
+      <nb-form-field class="col-lg">
+      <nb-select class="col-lg" [(ngModel)]="etat"  placeholder="Etat"  shape="round" fullWidth size="small"  >
         <nb-option   *ngFor="let etatPaiement of EtatPaiementList" [value]="etatPaiement" >{{etatPaiement}}</nb-option>
       </nb-select>
       </nb-form-field>

@@ -11,11 +11,9 @@ import {MediaMatcher} from '@angular/cdk/layout';
 export class HomeComponent implements OnInit, OnDestroy {
 
   constructor(private dialogService: NbDialogService, private menuService: NbMenuService,
-              private  media: MediaMatcher,
-              private keycloakService: KeycloakService, private sidebarService: NbSidebarService) {
-
+              private  media: MediaMatcher, private keycloakService: KeycloakService, private sidebarService: NbSidebarService) {
     this.menuService.onItemSelect().subscribe((event: {tag: string, item: any}) => {
-      if ( media.matchMedia('(max-width: 600px)').matches) {
+      if ( media.matchMedia('(max-width: 900px)').matches) {
       this.sidebarService.collapse('menu-sidebar');
       }
     });

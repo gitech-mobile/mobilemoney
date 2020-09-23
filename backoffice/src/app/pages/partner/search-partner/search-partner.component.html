@@ -8,11 +8,11 @@
   <nb-card-body [class.toggled]=classToggled class="animated fadeInup">
     <div class="row" >
 
-      <nb-form-field class="col-sm">
+      <nb-form-field class="col-lg">
         <input type="text" [(ngModel)]="nom" nbInput fieldSize="small" fullWidth shape="round" placeholder="Nom partenaire">
       </nb-form-field>
 
-      <nb-form-field class="col-sm">
+      <nb-form-field class="col-lg">
         <nb-select  placeholder="Status" [(ngModel)]="etatPartner"   shape="round" fullWidth size="small">
           <nb-option  *ngFor="let etatPartner of EtatPartnerList" [value]="etatPartner">{{etatPartner}}</nb-option>
         </nb-select>
