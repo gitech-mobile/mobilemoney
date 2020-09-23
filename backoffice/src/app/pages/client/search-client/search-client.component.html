@@ -7,16 +7,16 @@
   </nb-card-header>
   <nb-card-body [class.toggled]=classToggled class="animated fadeInup">
     <div  class="row" >
-      <nb-form-field class="col">
+      <nb-form-field  class="col-sm">
         <input type="text" name="nom" [(ngModel)]="client.nom" nbInput fieldSize="small" fullWidth shape="round" placeholder="Nom">
       </nb-form-field>
-      <nb-form-field class="col">
+      <nb-form-field class="col-sm">
         <input type="text" nbInput fieldSize="small" [(ngModel)]="client.prenom" name="prenom" fullWidth shape="round" placeholder="Prenom">
       </nb-form-field>
-      <nb-form-field class="col">
+      <nb-form-field class="col-sm">
         <input type="text" nbInput fieldSize="small" [(ngModel)]="client.numeroCompte" name="numeroCompte" fullWidth shape="round" placeholder="Numero Telephone">
       </nb-form-field>
-      <nb-form-field class="col">
+      <nb-form-field class="col-sm">
         <input type="text" nbInput fieldSize="small" name ="cin" [(ngModel)]="client.cin" fullWidth shape="round" placeholder="Numero Piece">
       </nb-form-field >
       <button (click)="search(client)" nbButton status="primary">

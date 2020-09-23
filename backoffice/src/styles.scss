@@ -11,6 +11,8 @@ html, body { height: 100%; }
 
 .mat-table{
   background: inherit;
+  display: grid;
+  overflow: auto;
 }
 
 .mat-header-row {

@@ -6,16 +6,16 @@ import {Client} from '../../../services/data/Client';
   templateUrl: './search-client.component.html'
 })
 export class SearchClientComponent  {
-  classToggled: boolean  = true;
+  classToggled  = true;
   @Output() clientChange = new EventEmitter();
   client: Client = new Client();
 
-  toggleField() {
+  toggleField(): void {
     this.classToggled = !this.classToggled;
     this.client = new Client();
     this.clientChange.emit(null);
   }
-  search(client: Client) {
+  search(client: Client): void {
     console.log('search');
     console.log(client);
     this.clientChange.emit(client);
