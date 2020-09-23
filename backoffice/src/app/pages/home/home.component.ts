@@ -1,16 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ModalComponent} from '../modal/modal.component';
-import {NbDialogService, NbSidebarService} from '@nebular/theme';
+import {NbDialogService, NbMenuService, NbSidebarService} from '@nebular/theme';
 import {KeycloakService} from 'keycloak-angular';
+import {MediaMatcher} from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html'
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
 
-  constructor(private dialogService: NbDialogService,
-              private keycloakService: KeycloakService, private sidebarService: NbSidebarService) { }
+  constructor(private dialogService: NbDialogService, private menuService: NbMenuService,
+              private  media: MediaMatcher,
+              private keycloakService: KeycloakService, private sidebarService: NbSidebarService) {
+
+    this.menuService.onItemSelect().subscribe((event: {tag: string, item: any}) => {
+      if ( media.matchMedia('(max-width: 600px)').matches) {
+      this.sidebarService.collapse('menu-sidebar');
+      }
+    });
+  }
 
   ngOnInit(): void {
   }
@@ -29,5 +38,8 @@ export class HomeComponent implements OnInit {
   }
   toggle(): void {
     this.sidebarService.toggle(false, 'menu-sidebar');
+  }
+
+  ngOnDestroy(): void {
   }
 }

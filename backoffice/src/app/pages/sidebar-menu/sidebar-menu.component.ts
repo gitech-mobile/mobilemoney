@@ -18,7 +18,7 @@ export class SidebarMenuComponent implements OnInit {
         {
           title: 'Client',
           link: '/client', // goes into angular `routerLink
-          icon: 'arrow-right'
+          icon: 'arrow-right',
         }
       ],
     },
