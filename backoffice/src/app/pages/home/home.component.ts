@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {ModalComponent} from '../modal/modal.component';
-import {NbDialogService} from '@nebular/theme';
+import {NbDialogService, NbSidebarService} from '@nebular/theme';
 import {KeycloakService} from 'keycloak-angular';
 
 @Component({
@@ -9,7 +9,8 @@ import {KeycloakService} from 'keycloak-angular';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private dialogService: NbDialogService, private keycloakService: KeycloakService) { }
+  constructor(private dialogService: NbDialogService,
+              private keycloakService: KeycloakService, private sidebarService: NbSidebarService) { }
 
   ngOnInit(): void {
   }
@@ -25,5 +26,8 @@ export class HomeComponent implements OnInit {
     modalDialog.componentRef.instance.output.subscribe(
       (save: boolean) => this.keycloakService.logout()
     );
+  }
+  toggle(): void {
+    this.sidebarService.toggle(false, 'menu-sidebar');
   }
 }

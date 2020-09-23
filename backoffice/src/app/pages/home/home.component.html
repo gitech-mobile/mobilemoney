@@ -1,5 +1,8 @@
-<nb-layout>
+<nb-layout windowMode>
   <nb-layout-header fixed class="top-bar"  >
+    <div (click)="toggle()">
+      <button class="btn"> <nb-icon icon="menu" ></nb-icon></button>
+    </div>
     <div>
       Pay me
     </div>
@@ -13,12 +16,15 @@
       </button>
     </div>
   </nb-layout-header>
-  <nb-sidebar>
+  <nb-sidebar class="menu-sidebar" tag="menu-sidebar" responsive>
     <app-sidebar-menu></app-sidebar-menu>
   </nb-sidebar>
   <nb-layout-column>
     <app-loader></app-loader>
+    <ng-content select="router-outlet"></ng-content>
+<!--
     <router-outlet></router-outlet>
+-->
     <app-alert></app-alert>
   </nb-layout-column>
 </nb-layout>
