@@ -4,10 +4,10 @@ spring:
       client:
         registration:
           keycloak:
-            client-id: ${AUTH_CLIENT_ID:mobilepaiement}
-            client-secret: ${AUTH_SECRET:c7c35d1c-1534-4a29-895b-3a4a5eceb199}
-            authorization-grant-type: ${AUTH_GRANT:client_credentials}
+            client-id: ${AUTH_CLIENT_ID}
+            client-secret: ${AUTH_SECRET}
+            authorization-grant-type: ${AUTH_GRANT}
         provider:
           keycloak:
-            token-uri: ${AUTH_TOKEN_URI:http://192.168.1.37:9007/auth/realms/mobilepaiement/protocol/openid-connect/token}
+            token-uri: ${AUTH_TOKEN_URI}
 

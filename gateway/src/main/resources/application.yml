@@ -13,9 +13,9 @@ spring:
       client:
         provider:
           keycloak:
-            issuer-uri: ${AUTH_URI:http://192.168.43.84:9007/auth/realms/mobilepaiement}
+            issuer-uri: ${AUTH_URI}
             user-name-attribute: preferred_username
         registration:
           keycloak:
             client-id: ${AUTH_CLIENT_ID:mobilepaiement}
-            client-secret: ${AUTH_SECRET:c7c35d1c-1534-4a29-895b-3a4a5eceb199}
+            client-secret: ${AUTH_SECRET}
