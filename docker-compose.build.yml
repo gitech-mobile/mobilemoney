@@ -50,7 +50,7 @@ services:
     ports:
       - 9004:9004
     env_file:
-      - mobilepaiement/mobilepaiement.env
+      - mobilemoney.env
     depends_on:
       - config
       - discovery
@@ -72,7 +72,7 @@ services:
     ports:
       - 9006:9006
     env_file:
-      - smsserver/smsserver.env
+      - mobilemoney
     depends_on:
       - config
       - donne
