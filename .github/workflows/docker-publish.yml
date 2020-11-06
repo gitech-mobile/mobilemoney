@@ -4,7 +4,7 @@ on:
   push:
     # Publish `master` as Docker `latest` image.
     branches:
-      - master
+      - preprod
 
     # Publish `v1.2.3` tags as releases.
     tags:
@@ -59,7 +59,7 @@ jobs:
         run: mvn clean install -DskipTests
 
       - name: Build image
-        run: docker-compose build #. --file Dockerfile --tag $IMAGE_NAME
+        run: docker-compose --file docker-compose.gitech.yml build #. --file Dockerfile --tag $IMAGE_NAME
 
       - name: Log into GitHub Container Registry
       # TODO: Create a PAT with `read:packages` and `write:packages` scopes and save it as an Actions secret `CR_PAT`
@@ -79,4 +79,4 @@ jobs:
           #echo IMAGE_ID=$IMAGE_ID
           #echo VERSION=$VERSION
           #docker-compose tag $IMAGE_NAME $IMAGE_ID:$VERSION
-          docker-compose --file docker-compose.build.yml push 
+          docker-compose --file docker-compose.gitech.yml push 
