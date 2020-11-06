@@ -5,13 +5,13 @@ import { KeycloakConfig } from 'keycloak-js';
 
 const keycloakConfig: KeycloakConfig = {
   realm: 'mobilepaiement',
-  url: 'http://192.168.43.84:9007/auth',
+  url: 'http://192.168.1.4:9007/auth',
   clientId: 'publicmobilepaiement'
 };
 
 export const environment = {
   production: false,
-  baseUrl: 'http://192.168.43.84:9002',
+  baseUrl: 'http://192.168.1.4:9002',
   key: keycloakConfig
 };
 
