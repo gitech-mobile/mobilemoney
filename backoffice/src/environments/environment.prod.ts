@@ -1,7 +1,7 @@
 import {KeycloakConfig} from 'keycloak-js';
 
 const keycloakConfig: KeycloakConfig = {
-  realm: 'mobilemoney',
+  realm: 'mobilepaiement',
   url: 'http://192.168.1.6:9007/auth',
   clientId: 'publicmobilepaiement'
 };
